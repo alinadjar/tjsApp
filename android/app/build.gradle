@@ -82,6 +82,9 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
+// added for react-native-vector-icons
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -186,6 +189,9 @@ dependencies {
     // added for react-navigation
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+
+    // added for react-native-vector-icons
+    implementation project(':react-native-vector-icons')
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
