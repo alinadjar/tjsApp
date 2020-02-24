@@ -60,14 +60,6 @@ import CheckoutPage from './components/CheckOut';
 
 
 
-
-
-
-
-
-
-
-
 const CartStack = createStackNavigator({
     CHECKOUT: CheckoutPage,
 });

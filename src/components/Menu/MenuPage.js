@@ -20,6 +20,8 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Tab1 from './Tabs/Tab1';
 import Tab2 from './Tabs/Tab2';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 
 class MenuPage extends Component {
@@ -72,7 +74,7 @@ class MenuPage extends Component {
                 <Tabs>
                     {/* <Tab heading={<TabHeading style={{ backgroundColor: '#ffda00', color: '#000' }}><Icon name="camera" style={{ color:'#000'}} /><Text style={{color:'#000'}}>Camera</Text></TabHeading>}> */}
                     <Tab heading={<TabHeading><MaterialIcon name="food" size={27} color={'#DDD'}/><Text>Food</Text></TabHeading>}>
-                        <Tab1 />
+                        <Tab1 foods={ this.props.foodList } />
                     </Tab>
                     <Tab heading={<TabHeading><MaterialIcon name="cake-variant" size={27} color={'#DDD'}/><Text>Dessert</Text></TabHeading>}>
                         {/* need to pass navigation props  */}
@@ -88,4 +90,16 @@ class MenuPage extends Component {
 }
 
 
-export default MenuPage;
+
+const mapStateToProps = (state) => {
+    return {
+      foodList: state.foodR.foodList
+    }
+  }
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({  }, dispatch);
+  }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuPage);

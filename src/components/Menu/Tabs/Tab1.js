@@ -4,6 +4,7 @@ import {
     View,
     ActivityIndicator, StatusBar,
     Image,
+    StyleSheet
 } from 'react-native';
 import {
     Container,
@@ -11,103 +12,105 @@ import {
     Header,
     Button,
     Text,
-    Body, Left, Right,    
-    Thumbnail,    
-    Item ,    
-    List, ListItem,    
+    Body, Left, Right,
+    Thumbnail,
+    Item, Icon,
+    List, ListItem,
 } from 'native-base';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 
+import { connect } from 'react-redux';
+import {addToCart, updateCartQuantity } from '../../../iRedux/Actions/cart_Actions';
+import { bindActionCreators } from 'redux';
+
+
+const styles = StyleSheet.create({
+    redQuantity: {
+        backgroundColor: '#F99',
+        borderRadius: 10
+    }
+});
 
 class Tab1 extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+
+
+    componentDidMount() {
+        // console.log('***');
+        // console.log(Array.from(this.props.foods));
+        // console.log(this.props.foods);
+        // console.log('-------------------------');        
+    }
+
     render() {
         return (
             <Container>
                 <Content>
                     <List>
-                        <ListItem thumbnail>
-                            <Left>
-                                {/* <Thumbnail square source={{ uri: 'Image URL' }} /> */}
-                                <Thumbnail square source={require('../../../assets/images/benz.png')} />
-                            </Left>
-                            <Body>
-                                <Text>Shishlique Shandiz !</Text>
-                                <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                            </Body>
-                            <Right>
-                                <Text> View</Text>
-                            </Right>
-                        </ListItem>
-                        <ListItem>
-                            <Body
-                                style={{
-                                    flex: 1,
-                                    flexDirection: 'row',
-                                }}
-                            >
-                                <View>
-                                    <Thumbnail square source={require('../../../assets/images/benz.png')} />
-                                </View>
-                                <View>
-                                    <Text>Shishlique Shandiz !</Text>
-                                    <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F99', borderRadius: 10 }}>
-                                    <TouchableHighlight
-                                        onPress={() => alert('-')}
-                                    >
-                                        <Image
-                                            source={require('../../../assets/images/misc/minusFood.jpg')}
-                                            style={{ width: 30, height: 30 }}
-                                        />
-                                    </TouchableHighlight>
-                                    <Text style={{ width:20, textAlign:'center'}}>000</Text>
-                                    <TouchableHighlight
-                                        onPress={() => alert('+')}
-                                    >
-                                        <Image
-                                            source={require('../../../assets/images/misc/plusFood.jpg')}
-                                            style={{ width: 30, height: 30 }}
-                                        />
-                                    </TouchableHighlight>
-                                </View>
-                            </Body>
-                        </ListItem>
-                        <ListItem>
-                            <Body
-                                style={{
-                                    flex: 1,
-                                    flexDirection: 'row',
-                                }}
-                            >
-                                <View>
-                                    <Thumbnail square source={require('../../../assets/images/benz.png')} />
-                                </View>
-                                <View>
-                                    <Text>Shishlique Shandiz !</Text>
-                                    <Text note numberOfLines={1}>$ 150,000 </Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TouchableHighlight
-                                        onPress={() => alert('-')}
-                                    >
-                                        <Image
-                                            source={require('../../../assets/images/misc/minusFood.jpg')}
-                                            style={{ width: 30, height: 30 }}
-                                        />
-                                    </TouchableHighlight>
-                                    <Text style={{ width:20, textAlign:'center'}}>54</Text>
-                                    <TouchableHighlight
-                                        onPress={() => alert('+')}
-                                    >
-                                        <Image
-                                            source={require('../../../assets/images/misc/plusFood.jpg')}
-                                            style={{ width: 30, height: 30 }}
-                                        />
-                                    </TouchableHighlight>
-                                </View>
-                            </Body>
-                        </ListItem>
+                        {
+                            this.props.foods ?
+                                this.props.foods.map((food, index) =>
+                                    <ListItem key={index}>
+                                        <Body
+                                            style={{
+                                                flex: 1,
+                                                flexDirection: 'row',
+                                            }}
+                                        >
+                                            {/* <Text>{JSON.stringify(food)}</Text> */}
+
+                                            <View style={{ width: '25%' }}>
+                                                <Thumbnail square source={require('../../../assets/images/Food/shishlique.jpg')} />
+                                            </View>
+                                            <View style={{ width: '41%' }}>
+                                                <Text>{food.NAME}</Text>
+                                                <Text note numberOfLines={1}>{food.PRICE}</Text>
+                                            </View>
+                                            <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '33%' }, 
+                                                                                            parseInt(food.QUANTITY) === 0 ? styles.redQuantity : {}]}>
+                                                <Button rounded success iconLeft style={{ paddingLeft: 5}}
+                                                    onPress={ () => {
+                                                        this.props.addToCart(food)
+                                                    }}
+                                                >
+                                                    <IconFA5 name='cart-plus' size={20} style={{ color: '#FFF'}}/>
+                                                    <Text>ADD</Text>
+                                                </Button>
+                                                <TouchableHighlight
+                                                    onPress={() => alert('-')}
+                                                >
+                                                    <Image
+                                                        source={require('../../../assets/images/misc/minusFood.jpg')}
+                                                        style={{ width: 30, height: 30 }}
+                                                    />
+                                                </TouchableHighlight>
+                                                <Text style={{ width: 20, textAlign: 'center' }}>1</Text>
+                                                <TouchableHighlight
+                                                    onPress={() => alert('+')}
+                                                >
+                                                    <Image
+                                                        source={require('../../../assets/images/misc/plusFood.jpg')}
+                                                        style={{ width: 30, height: 30 }}
+                                                    />
+                                                </TouchableHighlight>
+                                            </View>
+                                        </Body>
+                                    </ListItem>
+
+                                )
+
+                                : <ListItem>
+                                    <Body>
+                                        <Text>No Foods Available</Text>
+                                    </Body>
+                                </ListItem>
+                        }
+
                     </List>
                 </Content>
             </Container>
@@ -116,5 +119,11 @@ class Tab1 extends Component {
 }
 
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ addToCart, updateCartQuantity }, dispatch);
+  }
 
-export default Tab1;
+
+
+
+export default connect(null, mapDispatchToProps)(Tab1);

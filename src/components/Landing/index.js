@@ -22,15 +22,25 @@ import {
 } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import {LoadingComponent} from '../../utils/LoadingComponent';
+import { connect } from 'react-redux';
+import {FetchFoods} from '../../iRedux/Actions/food_Actions';
+import { bindActionCreators } from 'redux';
 
 
-const styles = StyleSheet.create({
+// const styles = StyleSheet.create({
+// });
 
-
-});
 
 
 class LandigPage extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false
+        }
+    }
 
 
     static navigationOptions = {
@@ -67,16 +77,19 @@ class LandigPage extends Component {
 
 
     render() {
-        return (
-            <View style={{ position: 'relative', flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                <Image
-                    source={require('../../assets/images/Landing/awning.jpg')}
-                    style={{ width: '100%' }}
-                />
+
+        const result =
+            <>
+
+                <View style={{ position: 'relative', flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <Image
+                        source={require('../../assets/images/Landing/awning.jpg')}
+                        style={{ width: '100%' }}
+                    />
 
 
 
-                {/* <View  style={{  // create shadow
+                    {/* <View  style={{  // create shadow
                         borderWidth: 1,
                         borderRadius: 2,
                         borderColor: '#F00',
@@ -93,59 +106,79 @@ class LandigPage extends Component {
                     <Text>some text here ...</Text>
                 </View> */}
 
-                <View>
-                    <TouchableOpacity //hitSlop={{ top: 0, bottom: 0, left: 0, right: 0 }}
-                        style={{ width: 200, height: 150, marginTop: 40, borderColor: '#000', borderWidth: 2, borderRadius: 10 }}
-                        onPress={() => this.props.navigation.navigate('TAB_bt')}
-                    >
-                        <Image source={require('../../assets/images/Landing/foodMenu-icon.png')}
-                            style={{ resizeMode: 'contain', width: 200, height: '100%' }}
-                        />
+                    <View>
+                        <TouchableOpacity //hitSlop={{ top: 0, bottom: 0, left: 0, right: 0 }}
+                            style={{ width: 200, height: 150, marginTop: 40, borderColor: '#000', borderWidth: 2, borderRadius: 10 }}
+                            //onPress={() => this.props.navigation.navigate('TAB_bt')}
+                            onPress={ () => {
+                                this.setState({ loading: true});
+                                const result = this.props.FetchFoods();
+                                console.log(result);
+                                result.then(() => {
+                                    this.setState({ loading: false});
+                                    this.props.navigation.navigate('TAB_bt');
+                                })
+                            }}
+                        >
+                            <Image source={require('../../assets/images/Landing/foodMenu-icon.png')}
+                                style={{ resizeMode: 'contain', width: 200, height: '100%' }}
+                            />
 
-                    </TouchableOpacity>
-                    <Text>Menu</Text>
+                        </TouchableOpacity>
+                        <Text>Menu</Text>
+                    </View>
+
+
+                    <View>
+                        <TouchableOpacity //hitSlop={{ top: 0, bottom: 0, left: 0, right: 0 }}
+                            style={{ width: 200, height: 150, borderColor: '#000', borderWidth: 2, borderRadius: 10 }}
+                            onPress={() => this.props.navigation.navigate('PURSUIT')}
+                        >
+                            <Image source={require('../../assets/images/Landing/tracking.png')}
+                                style={{ resizeMode: 'contain', width: 200, height: '100%' }}
+                            />
+
+                        </TouchableOpacity>
+                        <Text>Pursuit</Text>
+
+                    </View>
+
+
+
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        backgroundColor: '#272221',
+                        width: '100%',
+                        height: 60
+                    }}>
+                        <TouchableOpacity
+                            style={{ width: '50%', backgroundColor: '#ffda00', marginLeft: 'auto', marginRight: 'auto', padding: 10 }}
+                            onPress={() => this.props.navigation.navigate('LOGI')}
+                        >
+                            <Text style={{ textAlign: 'center' }}>return</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
+                {this.state.loading &&
+                   <LoadingComponent />
+                }
+            </>
+        return result;
 
-
-                <View>
-                    <TouchableOpacity //hitSlop={{ top: 0, bottom: 0, left: 0, right: 0 }}
-                        style={{ width: 200, height: 150, borderColor: '#000', borderWidth: 2, borderRadius: 10 }}
-                        onPress={() => this.props.navigation.navigate('PURSUIT')}
-                    >
-                        <Image source={require('../../assets/images/Landing/tracking.png')}
-                            style={{ resizeMode: 'contain', width: 200, height: '100%' }}
-                        />
-
-                    </TouchableOpacity>
-                    <Text>Pursuit</Text>
-
-                </View>
-
-
-
-                <View style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    backgroundColor: '#272221',
-                    width: '100%',
-                    height: 60
-                }}>
-                    <TouchableOpacity
-                        style={{ width: '50%', backgroundColor: '#ffda00', marginLeft: 'auto', marginRight: 'auto', padding: 10 }}
-                        onPress={() => this.props.navigation.navigate('LOGI')}
-                    >
-                        <Text style={{ textAlign: 'center' }}>return</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )
     }
 
 
 }
 
+// const mapDispatchToProps = (dispatch) => ({
+//     FetchFoods: (data) => dispatch(FetchFoods(data))
+// })
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ FetchFoods }, dispatch);
+  }
 
 
-
-export default LandigPage;
+export default connect(null, mapDispatchToProps)(LandigPage);
