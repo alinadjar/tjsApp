@@ -46,6 +46,20 @@ const styles = StyleSheet.create({
 
 class PursuitPage extends Component {
 
+
+    static navigationOptions = {
+        // title: 'Home54',
+        // headerStyle: {
+        //     backgroundColor: '#445100',
+        // },
+        // headerTintColor: '#f00', // title color and back button color
+        // headerTitleStyle: {
+        //     fontWeight: 'bold',
+        // },
+        headerShown: false,
+    };
+
+
     // componentDidMount() {
     //     BackHandler.addEventListener('hardwareBackPress', this.backPressed);
     // }
@@ -64,19 +78,21 @@ class PursuitPage extends Component {
         return (
             <Container>
                 <Content>
-                    <Header>
+                    <Header style={{ backgroundColor: '#ffda00' }}>
                         <Left>
-                            <Button transparent>
-                                <Icon name='arrow-back' />
+                            <Button transparent
+                                onPress={() => this.props.navigation.goBack()}
+                            >
+                                <Icon name='arrow-back' style={{ color: '#000' }} />
                             </Button>
                         </Left>
                         <Body>
-                            <Title>Header</Title>
+                            <Title style={{ color: '#000' }}>Header</Title>
                         </Body>
                         <Right>
                             <Button transparent>
-                                <Icon name='menu' />
-                            </Button>
+                            <Icon name='menu' style={{ color: '#000' }}/>
+                        </Button>
                         </Right>
                     </Header>
                     <View>

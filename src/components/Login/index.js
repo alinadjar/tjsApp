@@ -60,7 +60,7 @@ class LoginPage extends Component {
     //     return true
     // }
 
-        
+
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.backPressed);
     }
@@ -70,8 +70,8 @@ class LoginPage extends Component {
 
     backPressed = () => {
 
-        this.props.navigation.goBack(null);    
-        
+        this.props.navigation.goBack(null);
+
         return true;
     }
 
@@ -147,7 +147,9 @@ class LoginPage extends Component {
 
 
 
+
     render() {
+
 
         return (
             <Container>

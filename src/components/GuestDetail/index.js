@@ -44,6 +44,18 @@ var CANCEL_INDEX = 4;
 
 class GuestDetailsPage extends Component {
 
+    static navigationOptions = {
+        // title: 'Home54',
+        // headerStyle: {
+        //     backgroundColor: '#445100',
+        // },
+        // headerTintColor: '#f00', // title color and back button color
+        // headerTitleStyle: {
+        //     fontWeight: 'bold',
+        // },
+        headerShown: false,
+    };
+
 
     constructor(props) {
         super(props);
