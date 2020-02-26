@@ -16,11 +16,13 @@ import {
     Item,
     Input,
     Label,
-    ActionSheet
+    ActionSheet, Left, Right, Body, Title, Icon
 } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import IconFA from 'react-native-vector-icons/FontAwesome';
+import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import IconEntypo from 'react-native-vector-icons/Entypo';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -62,7 +64,7 @@ class GuestDetailsPage extends Component {
         this.state = {}
     }
 
-    
+
 
     // componentDidMount() {
     //     BackHandler.addEventListener('hardwareBackPress', this.backPressed);
@@ -80,72 +82,128 @@ class GuestDetailsPage extends Component {
 
     render() {
         const styles = StyleSheet.create({
-            inp: { 
-                textAlign: 'center', 
-                backgroundColor: '#FFF', 
-                borderRadius:5,
-                width: 50,    
-                marginBottom: 10            
-            }       
+            inp: {
+                textAlign: 'center',
+                backgroundColor: '#FFF',
+                borderRadius: 5,
+                width: 70,
+                marginBottom: 10
+            },
+
         });
 
         return (
             <Container>
-                {/* <Header /> */}
-                <Content>
-                    <View style={{ backgroundColor: '#EEE' }}>
-
-                        <Image source={require('../../assets/images/misc/orderDetails.png')} 
-                            style={{ 
-                                height: 90, 
+                <Header style={{ backgroundColor: '#272221' }}>
+                    <Left>
+                        <Button transparent>
+                            <Icon name='arrow-back' />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title>Header</Title>
+                    </Body>
+                    <Right>
+                        {/* <Button transparent>
+                            <Text>Cancel</Text>
+                        </Button> */}
+                    </Right>
+                </Header>
+                <Content style={{ backgroundColor: '#EEE', }}>
+                    {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image source={require('../../assets/images/misc/orderDetails.png')}
+                            style={{
+                                height: 90,
                                 width: 80,
                                 resizeMode: 'contain',
                                 marginLeft: 'auto',
                                 marginRight: 'auto'
-                                }} />                        
-                        <Form style={{ width: '70%' }}>
+                            }} />
+                        <View style={{ flexDirection: 'row' }}>
+                            <Ionicons name="md-person" size={30} color="#900" style={{ width: 40 }} />
+                            <Input style={styles.inp} placeholder='Family' />
+                        </View>
+                        <View>
+                            <IconFA5 name="mobile-alt" size={30} color="#900" style={{ width: 40 }} />
+                            <Input style={styles.inp} placeholder='mobile' />
+                        </View>
+                        <View>
+                            <IconEntypo name="layers" size={30} color="#900" style={{ width: 40 }} />
+                            <Input style={styles.inp} placeholder='Desk' />
+                        </View>
+                        <View>
+                            <IconFA5 name="users" size={30} color="#900" style={{ width: 40 }} />
+                            <Input style={styles.inp} placeholder='num' />
+                        </View>
+                    </View> */}
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+                        <Image source={require('../../assets/images/misc/orderDetails.png')}
+                            style={{
+                                height: 90,
+                                width: 80,
+                                resizeMode: 'contain',
+                                marginLeft: 'auto',
+                                marginRight: 'auto'
+                            }} />
+                        <Form style={{ width: '80%', marginTop: 10 }}>
                             <Item fixedLabel>
                                 {/* <Label>guest name</Label> */}
-                                <Ionicons name="md-person" size={30} color="#900" />
-                                <Input style={ styles.inp} placeholder='Family' />
+                                <Ionicons name="md-person" size={30} color="#900" style={{ width: 40 }} />
+                                <Input style={styles.inp} placeholder='Family' />
                             </Item>
-                            <Item fixedLabel last>                                
-                                <Icon name="mobile-alt" size={30} color="#900" />
-                                <Input style={ styles.inp} placeholder='mobile' />
+                            <Item fixedLabel>
+                                <IconFA5 name="mobile-alt" size={30} color="#900" style={{ width: 40 }} />
+                                <Input style={styles.inp} placeholder='mobile' />
                             </Item>
-                            <Item fixedLabel last>
+                            <Item fixedLabel>
                                 {/* <Label>Desk number</Label> */}
-                                <IconEntypo name="layers" size={30} color="#900" />
-                                <Input style={ styles.inp} placeholder='Desk' />
+                                <IconEntypo name="layers" size={30} color="#900" style={{ width: 40 }} />
+                                <Input style={styles.inp} placeholder='Desk' />
                             </Item>
                             <Item fixedLabel last>
                                 {/* <Label>Count</Label> */}
-                                <Icon name="users" size={30} color="#900" />
-                                <Input style={ styles.inp} placeholder='num' />
+                                <IconFA5 name="users" size={30} color="#900" style={{ width: 40 }} />
+                                <Input style={styles.inp} placeholder='num' />
                             </Item>
-                            <Button
-                                onPress={() =>
-                                    ActionSheet.show(
-                                        {
-                                            options: BUTTONS,
-                                            cancelButtonIndex: CANCEL_INDEX,
-                                            destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                                            title: "Order Type"
-                                        },
-                                        buttonIndex => {
-                                            this.setState({ clicked: BUTTONS[buttonIndex] });
-                                        }
-                                    )}
+                            <Item style={{ width: '100%', backgroundColor: '#F00' }}>
+                                <IconFA name='shopping-bag' size={30} color="#900" style={{ width: 40 }} />
+                                <View style={{ backgroundColor: '#000', marginBottom: 10, width: '100%' }}>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            ActionSheet.show(
+                                                {
+                                                    options: BUTTONS,
+                                                    cancelButtonIndex: CANCEL_INDEX,
+                                                    destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                                                    title: "Order Type"
+                                                },
+                                                buttonIndex => {
+                                                    this.setState({ clicked: BUTTONS[buttonIndex] });
+                                                }
+                                            )}
+                                    >
+                                        <Text style={{ color: '#FFF', textAlign: 'center', height: 30 }}>  Order type </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </Item>
+
+                            <TouchableOpacity
+                                onPress={() => alert('OK')}
                             >
-                                <Text>Actionsheet</Text>
-                            </Button>
-                            <Button>
-                                <Text>Confirm</Text>
-                            </Button>
+                                <View style={{ backgroundColor: '#ffda00', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                    <Text style={{ color: '#000', textAlign: 'center', height: 30 }}>  Reserve </Text>
+                                </View>
+                            </TouchableOpacity>
+
+
 
                         </Form>
-                        <View>
 
+
+
+
+                        {/* <View>
                             <Text> GuestDetails Page .... </Text>
 
                             <Button
@@ -154,8 +212,8 @@ class GuestDetailsPage extends Component {
                                     landing
                             </Text>
                             </Button>
-                        </View>
-                    </View>
+                        </View> */}
+                    </View> 
                 </Content>
             </Container>
         )

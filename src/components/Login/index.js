@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     //Text, 
     View,
-    ActivityIndicator, StatusBar,
+    ActivityIndicator,
     Image,
     //Button,
     BackHandler, ToastAndroid,
@@ -28,6 +28,7 @@ import {
 } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import IconEnty from 'react-native-vector-icons/Entypo';
 
 class LoginPage extends Component {
 
@@ -152,14 +153,23 @@ class LoginPage extends Component {
 
 
         return (
+            <>
+
             <Container>
-                {/* <Header>
-                    <Left></Left>
+                <Header style={{ backgroundColor: '#ffda00' }}>
+                    <Left>                        
+                    </Left>
                     <Body>
-                        <Title>Best App Ever!</Title>
+                        <Title style={{color:'#000'}}>Header</Title>
                     </Body>
-                    <Right></Right>
-                </Header> */}
+                    <Right>
+                        <Button transparent
+                            onPress={ () => alert('open top picker menu') }
+                        >                            
+                            <IconEnty name='dots-three-vertical' color='#000' size={20}/>
+                        </Button>
+                    </Right>
+                </Header>
 
                 <ScrollView style={{ flex: 1 }}>
                     <>
@@ -345,8 +355,7 @@ class LoginPage extends Component {
                 </ScrollView>
             </Container>
 
-
-            // </View>
+</>
         )
     }
 }

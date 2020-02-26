@@ -23,6 +23,7 @@ const middlewares = [
 
 
 import reducers from './src/iRedux/Reducers';
+import CartIconWithBadge from './src/components/Menu/CartIconWithBadge';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const myStore = createStore(reducers, composeEnhancers(applyMiddleware(...middlewares)));
@@ -30,6 +31,7 @@ const myStore = createStore(reducers, composeEnhancers(applyMiddleware(...middle
 const appRedux = () => (
     <Provider store={myStore}>
         <App />
+        {/* <CartIconWithBadge  /> */}
     </Provider>
 );
 

@@ -73,14 +73,14 @@ class MenuPage extends Component {
                 {/* <Header hasTabs /> */}
                 <Tabs>
                     {/* <Tab heading={<TabHeading style={{ backgroundColor: '#ffda00', color: '#000' }}><Icon name="camera" style={{ color:'#000'}} /><Text style={{color:'#000'}}>Camera</Text></TabHeading>}> */}
-                    <Tab heading={<TabHeading><MaterialIcon name="food" size={27} color={'#DDD'}/><Text>Food</Text></TabHeading>}>
-                        <Tab1 foods={ this.props.foodList } />
+                    <Tab heading={<TabHeading><MaterialIcon name="food" size={27} color={'#DDD'} /><Text>Food</Text></TabHeading>}>
+                        <Tab1 foods={this.props.foodList} />
                     </Tab>
-                    <Tab heading={<TabHeading><MaterialIcon name="cake-variant" size={27} color={'#DDD'}/><Text>Dessert</Text></TabHeading>}>
+                    <Tab heading={<TabHeading><MaterialIcon name="cake-variant" size={27} color={'#DDD'} /><Text>Dessert</Text></TabHeading>}>
                         {/* need to pass navigation props  */}
                         <Tab2 {...this.props} />
                     </Tab>
-                    <Tab heading={<TabHeading><Icon name="apps"/></TabHeading>}>
+                    <Tab heading={<TabHeading><Icon name="apps" /></TabHeading>}>
                         <Tab1 />
                     </Tab>
                 </Tabs>
@@ -93,13 +93,13 @@ class MenuPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      foodList: state.foodR.foodList
+        foodList: state.foodR.foodList
     }
-  }
+}
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({  }, dispatch);
-  }
+    return bindActionCreators({}, dispatch);
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuPage);

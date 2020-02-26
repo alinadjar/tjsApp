@@ -21,7 +21,7 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handl
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 
 import { connect } from 'react-redux';
-import {addToCart, updateCartQuantity } from '../../../iRedux/Actions/cart_Actions';
+import { addToCart, updateCartQuantity } from '../../../iRedux/Actions/cart_Actions';
 import { bindActionCreators } from 'redux';
 
 
@@ -45,6 +45,22 @@ class Tab1 extends Component {
         // console.log(Array.from(this.props.foods));
         // console.log(this.props.foods);
         // console.log('-------------------------');        
+    }
+
+    quantityChanged = (food) => {
+        //alert(food);
+        const existing = this.props.cart.find(item => item.product.GOOD_ID === food.GOOD_ID);
+        if (!existing) {
+            this.props.addToCart(food);
+        }
+        else {
+            if (parseInt(existing.quantity) + 1 <= parseInt(existing.product.QUANTITY)) {  // increase             
+                this.props.addToCart(food, 1);
+            } 
+            else {
+                alert('Not possible');
+            }
+        }
     }
 
     render() {
@@ -71,17 +87,22 @@ class Tab1 extends Component {
                                                 <Text>{food.NAME}</Text>
                                                 <Text note numberOfLines={1}>{food.PRICE}</Text>
                                             </View>
-                                            <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '33%' }, 
-                                                                                            parseInt(food.QUANTITY) === 0 ? styles.redQuantity : {}]}>
-                                                <Button rounded success iconLeft style={{ paddingLeft: 5}}
-                                                    onPress={ () => {
-                                                        this.props.addToCart(food)
-                                                    }}
-                                                >
-                                                    <IconFA5 name='cart-plus' size={20} style={{ color: '#FFF'}}/>
-                                                    <Text>ADD</Text>
-                                                </Button>
-                                                <TouchableHighlight
+                                            <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '33%' },
+                                            parseInt(food.QUANTITY) === 0 ? styles.reddddQuantity : {}]}>
+
+                                                {food.QUANTITY > 0 ?
+                                                    <Button rounded success iconLeft style={{ paddingLeft: 5 }}
+                                                        //onPress={ () => { this.props.addToCart(food) }}
+                                                        onPress={() => this.quantityChanged(food)}
+                                                    >
+                                                        <IconFA5 name='cart-plus' size={20} style={{ color: '#FFF' }} />
+                                                        <Text>ADD</Text>
+                                                    </Button>
+                                                    : null
+                                                }
+
+
+                                                {/* <TouchableHighlight
                                                     onPress={() => alert('-')}
                                                 >
                                                     <Image
@@ -97,7 +118,7 @@ class Tab1 extends Component {
                                                         source={require('../../../assets/images/misc/plusFood.jpg')}
                                                         style={{ width: 30, height: 30 }}
                                                     />
-                                                </TouchableHighlight>
+                                                </TouchableHighlight> */}
                                             </View>
                                         </Body>
                                     </ListItem>
@@ -119,11 +140,15 @@ class Tab1 extends Component {
 }
 
 
+const mapStateToProps = (state) => {
+    return {
+        cart: state.cartR.cart
+    }
+}
+
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ addToCart, updateCartQuantity }, dispatch);
-  }
+}
 
 
-
-
-export default connect(null, mapDispatchToProps)(Tab1);
+export default connect(mapStateToProps, mapDispatchToProps)(Tab1);
