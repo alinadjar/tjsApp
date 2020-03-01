@@ -14,13 +14,13 @@ export const FetchFoods = () => {
             return response.data;
             //throw new Error('this is a fake error');
         }).catch(e => {
-            dispatch(SpinnerHide());
-            dispatch(WriteError({
-                code: 500,
-                message: e.message,
-                error: '',
-                redirect: ''
-            }));
+            // dispatch(SpinnerHide());
+            // dispatch(WriteError({
+            //     code: 500,
+            //     message: e.message,
+            //     error: '',
+            //     redirect: ''
+            // }));
             console.log(e);
             //return e;
         });
