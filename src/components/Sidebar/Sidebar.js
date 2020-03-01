@@ -3,7 +3,7 @@ import { AppRegistry, Image, StatusBar } from "react-native";
 import { Container, Content, Text, List, ListItem } from "native-base";
 
 
-const routes = ["LOGI", "LAND", "TAB"];
+const routes = ["LOGI", "LAND", "TAB", "PUR"];
 
 class Sidebar extends Component {
     render() {

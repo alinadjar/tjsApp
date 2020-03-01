@@ -35,6 +35,7 @@ import IconEnty from 'react-native-vector-icons/Entypo';
 import { saveGuestMobile } from '../../iRedux/Actions/guest_Actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const styles = StyleSheet.create({
@@ -237,37 +238,57 @@ class LoginPage extends Component {
                                     {
                                         this.state.LoginGarson &&
                                         <View style={{}}>
-                                            <Image source={require('../../assets/images/Login/banner1.jpg')} style={{ width: '100%', height: 250 }} />
+                                            <Image source={require('../../assets/images/Login/banner1.jpg')} style={{ width: '100%' }} />
 
-                                            <Form>
-                                                <FormItem floatingLabel>
-                                                    <Label><Icon active name='user-alt' size={24} style={{ color: '#000', width: '10%' }} /> Username</Label>
-                                                    <Input style={{ width: '90%', textAlign: 'center' }} />
-                                                </FormItem>
-                                                <FormItem floatingLabel last>
-                                                    <Label><Ionicons active name='ios-lock' size={24} style={{ color: '#000', width: '10%' }} />    Password</Label>
-                                                    <Input secureTextEntry={true} style={{ width: '90%', textAlign: 'center' }} />
-                                                </FormItem>
+                                            <View style={{
+                                                borderWidth: 1,
+                                                borderTopLeftRadius: 40,
+                                                borderTopRightRadius: 40,
+                                                marginTop: '-60%',
+                                                backgroundColor: '#FFF',                                                
+                                                borderBottomColor: '#FFF'
+                                            }}>
+                                                <Form>
+                                                    <FormItem floatingLabel>
+                                                        <Label><Icon active name='user-alt' size={24} style={{ color: '#000', width: '10%' }} /> Username</Label>
+                                                        <Input style={{ width: '90%', textAlign: 'center' }} />
+                                                    </FormItem>
+                                                    <FormItem floatingLabel last>
+                                                        <Label><Ionicons active name='ios-lock' size={24} style={{ color: '#000', width: '10%' }} />    Password</Label>
+                                                        <Input secureTextEntry={true} style={{ width: '90%', textAlign: 'center' }} />
+                                                    </FormItem>
 
 
 
-                                                <Button block primary style={{ width: '40%', marginTop: 50, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                                                    {/* <Button block primary style={{ width: '40%', marginTop: 50, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                                                     onPress={() => {
                                                         this.props.navigation.navigate('LANDING_st');
                                                     }}
                                                 >
                                                     <Text style={{}}> Login </Text>
-                                                </Button>
-                                                <Button transparent style={{ width: '40%', marginTop: 10, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
-                                                    onPress={() => {
-                                                        this.setState({
-                                                            LoginGarson: false,
-                                                            showCards: true,
-                                                        });
-                                                    }}>
-                                                    <Text>بازگشت</Text>
-                                                </Button>
-                                            </Form>
+                                                </Button> */}
+                                                    <View style={{ flex: 1, alignItems: 'center' }}>
+                                                        <TouchableOpacity
+                                                            onPress={() => {
+                                                                this.props.navigation.navigate('LANDING_st');
+                                                            }}
+                                                        >
+                                                            <View style={{ backgroundColor: '#FFDA00', marginTop: 50, width: '100%', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Login</Text>
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                        <Button transparent style={{ marginTop: 10, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                                                            onPress={() => {
+                                                                this.setState({
+                                                                    LoginGarson: false,
+                                                                    showCards: true,
+                                                                });
+                                                            }}>
+                                                            <Text>بازگشت</Text>
+                                                        </Button>
+                                                    </View>
+                                                </Form>
+                                            </View>
                                         </View>
                                     }
 
@@ -295,7 +316,7 @@ class LoginPage extends Component {
                                                             this.setState({ mobileSent: true },
                                                                 () => this.props.saveGuestMobile(this.state.mobileNumber));
 
-                                                            
+
                                                             const min = 100;
                                                             const max = 999;
                                                             const rand = min + Math.random() * (max - min);
@@ -304,7 +325,7 @@ class LoginPage extends Component {
                                                             // Axios Call to API and send SMS
                                                             // [POST] /api/v1/SendSMS/{mobile: 09150000, msg: 748}
 
-                                                        
+
 
                                                             this.interval = setInterval(
                                                                 () => this.setState((prevState) => {
@@ -347,17 +368,17 @@ class LoginPage extends Component {
                                                             maxLength={1}
                                                             keyboardType="numeric"
                                                             style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, }}
-                                                            onChangeText={(num) => { 
-                                                                this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) }); 
-                                                                }} />
+                                                            onChangeText={(num) => {
+                                                                this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) });
+                                                            }} />
                                                     </View>
                                                     <Button block primary style={{ marginTop: 10, textAlign: 'center' }}
                                                         onPress={() => {
                                                             //alert('SMS code: ' + JSON.stringify(this.state.verifySMS));
-                                                            console.log('=============> '+JSON.stringify(this.state.verifySMS));
-                                                            console.log('=============> '+JSON.stringify(this.state.randomInt));
+                                                            console.log('=============> ' + JSON.stringify(this.state.verifySMS));
+                                                            console.log('=============> ' + JSON.stringify(this.state.randomInt));
                                                             //this.props.navigation.navigate('LAND');
-                                                            if(parseInt(this.state.verifySMS) === parseInt(this.state.randomInt)) {
+                                                            if (parseInt(this.state.verifySMS) === parseInt(this.state.randomInt)) {
                                                                 this.props.navigation.navigate('LAND');
                                                             }
                                                         }}

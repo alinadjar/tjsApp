@@ -10,23 +10,8 @@ import {
     AlertIOS,
 } from 'react-native';
 import {
-    Container,
-    Content,
-    Header,
     Button,
     Text,
-    Body, Left, Right,
-    Card, CardItem,
-    Thumbnail,
-    Form,
-    Item as FormItem,
-    Input,
-    Label,
-    Title,
-    Icon,
-    Tabs, Tab, TabHeading,
-    List, ListItem,
-    Grid, Col, Row
 } from 'native-base';
 
 import {
@@ -52,11 +37,15 @@ import CartIconWithBadge from './components/Menu/CartIconWithBadge';
 import SplashScreen from './components/Splash';
 import LoginPage from './components/Login';
 import LandigPage from './components/Landing';
-import PursuitPage from './components/Pursuit';
+import PursuitPage from './components/Pursuit/PursuitPage';
+import SearchPursuit from './components/Pursuit';
 import FoodPage from './components/Menu/FoodPage';
 import GuestDetailsPage from './components/GuestDetail';
 import MenuPage from './components/Menu/MenuPage';
 import CheckoutPage from './components/CheckOut';
+
+
+
 
 
 
@@ -110,9 +99,18 @@ const TabNavig = createBottomTabNavigator({
 );
 
 
+const PursuitStack = createStackNavigator({
+    SPursuit: SearchPursuit,
+    PPursuit: PursuitPage
+},{
+    navigationOptions: {
+        headerShown: false,
+    }
+});
+
 const LandingStack = createStackNavigator({
     LANDING: LandigPage,
-    PURSUIT: PursuitPage
+    PURSUIT: PursuitStack
 },{
     navigationOptions: {
         headerShown: false,
@@ -146,7 +144,8 @@ const drawerNavig = createDrawerNavigator(
     {
         LOGI: { screen: LoginPage },
         LAND: { screen: mainStack },
-        TAB: { screen: TabNavig }
+        TAB: { screen: TabNavig },
+        PUR: { screen: PursuitStack }
     },
     {
         contentComponent: props => <SideBar {...props} />

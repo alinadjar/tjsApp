@@ -1,70 +1,25 @@
 import React, { Component } from 'react';
+import { View, ScrollView, Image, StyleSheet } from 'react-native';
 import {
-    //Text, 
-    View, StyleSheet,
-    ActivityIndicator, StatusBar,
-    Image,
-    //Button,
-    BackHandler, ToastAndroid,
-    Platform,
-    AlertIOS,
-} from 'react-native';
-import {
-    Container,
-    Content,
-    Header,
+    Container, Content, Header,
     Button,
     Text,
-    Body, Left, Right, Icon,
-    Title,
+    ListItem, Right, Body, Left, Icon,
+    Item, Input
 } from 'native-base';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import IconFA5 from 'react-native-vector-icons/FontAwesome5';
-import IconMatCommu from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-    },
-    // outerCircle: {
-    //     borderRadius: 40,
-    //     width: 80,
-    //     height: 80,
-    //     backgroundColor: 'white',
-    //     borderWidth: 1,
-    //     borderColor: '#F00'
-    // },
-    innerCircle: {
-        borderRadius: 35,
-        width: 70,
-        height: 40,
-        margin: 20,
-        backgroundColor: '#111'
-    },
     backgroundImage: {
         //flex: 1,
         position: 'absolute',
         top: 0,
-        resizeMode: 'cover', // or 'stretch'
+        resizeMode: 'cover', // or 'stretch'        
     }
 });
 
-
-
-class PursuitPage extends Component {
-
-    state = {
-        confirmed: true,
-        cooking: true,
-        onTheWay: false,
-        delivered: false
-    }
-
+class SearchPursuit extends Component {
 
     static navigationOptions = {
         // title: 'Home54',
@@ -78,158 +33,314 @@ class PursuitPage extends Component {
         headerShown: false,
     };
 
-
-    // componentDidMount() {
-    //     BackHandler.addEventListener('hardwareBackPress', this.backPressed);
-    // }
-    // componentWillUnmount() {
-    //     BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
-    // }
-
-    // backPressed = () => {
-    //     //this.props.navigation.goBack();   // if in the same stack      
-    //     this.props.navigation.navigate('LANDING');
-    //     return true;
-    // }
-
-
     render() {
         return (
-            <Container>
-                <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-                    {/* <Content> */}
-                    <Header transparent style={{ backgroundColor: '#ffda00' }}>
-                        <Left>
-                            <Button transparent
-                                onPress={() => this.props.navigation.goBack()}
-                            >
-                                <Icon name='arrow-back' style={{ color: '#000' }} />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Title style={{ color: '#000' }}>Header</Title>
-                        </Body>
-                        <Right>
+            <>
+
+                <View style={{ flex: 1 }}>
+                <Image source={require('../../assets/images/Pursuit/woodenBG.jpg')} style={styles.backgroundImage}  />
+                    <View style={{ alignItems: 'center', 
+                    // borderWidth: 2, 
+                    // borderBottomLeftRadius: 40, 
+                    // borderBottomRightRadius: 40
+                     }}>
+                    
+                        {/* <Button
+                            onPress={() => this.props.navigation.navigate('PPursuit')}
+                        >
+                        </Button> */}
+                        <View style={{ backgroundColor: '#FFFFFFEE', borderRadius: 10, width: '80%', marginBottom: 20, marginTop: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 10 }}>
+                                <Text style={{ fontSize: 20 }}>Enter Order Id: </Text>
+                            </View>
+                            <Item>
+                                <Icon name="ios-search" />
+                                <Input placeholder="Search Order Id" keyboardType="numeric" />
+                                <Icon name="ios-grid" />
+                            </Item>
                             <Button transparent>
-                                <Icon name='menu' style={{ color: '#000' }} />
+                                <Text>Search</Text>
                             </Button>
-                        </Right>
-                    </Header>
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                            {/* <Button transparent style={{ alignItems: 'center', justifyContent: 'center'}}>
+                                <Text style={{ textAlign: 'center' }}>Load my Orders</Text>
+                            </Button> */}
 
-                        <Image source={require('../../assets/images/Pursuit/woodenBG.jpg')} style={styles.backgroundImage} />
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={{ backgroundColor: '#FFFFFFAA', borderRadius: 10, width: '90%' }}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 10 }}>
-                                    <IconFA5 name='list-ol' size={23} style={{ color: '#000', paddingRight: 10 }} />
-                                    <Text style={{ fontSize: 20 }}>Order Id: </Text>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>3457</Text>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    
+                                }}
+                            >
+                                <View style={{ backgroundColor: '#FFDA00', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                    <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Load my Orders </Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 10 }}>
-                                    <IconFA5 name='user-alt' size={23} style={{ color: '#000', paddingRight: 10 }} />
-                                    <Text style={{ fontSize: 20 }}>Customer Name: </Text>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Asadi</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 10 }}>
-                                    <IconMatCommu name='layers' size={25} style={{ color: '#000', paddingRight: 10 }} />
-                                    <Text style={{ fontSize: 20 }}>Desk Number: </Text>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>5</Text>
-                                </View>
-                            </View>
-                            <View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative', marginTop: 10 }}>
-
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>Confirmed</Text>
-                                    <View style={{ width: '30%', alignItems: 'center' }}>
-                                        <View style={{
-                                            borderStyle: 'dotted',
-                                            height: 80,
-                                            backgroundColor: this.state.confirmed ? '#0eb347' : '#000',
-                                            width: 8,
-                                            position: 'absolute',
-                                            top: 20,
-                                            left: '47%'
-                                        }} />
-                                        <View style={[styles.innerCircle, { justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.confirmed ? '#0eb347' : '#000' }]}>
-                                            {
-                                                this.state.confirmed ?
-                                                    <IconFA5 name='check-double' size={20} style={{ color: '#FFF', }} /> :
-                                                    null
-                                                // <IconMatCommu name='timer-sand' size={35} style={{ color: '#FFF', }} />
-                                            }
-                                        </View>
-                                    </View>
-                                    <Text style={{ color: '#FFF', width: '40%' }}>13:53:41</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>Cooking</Text>
-                                    <View style={{ width: '30%', alignItems: 'center' }}>
-                                        <View style={{
-                                            borderStyle: 'dotted',
-                                            height: 80,
-                                            backgroundColor: this.state.cooking ? '#0eb347' : '#000',
-                                            width: 8,
-                                            position: 'absolute',
-                                            top: 20,
-                                            left: '47%'
-                                        }} />
-                                        <View style={[styles.innerCircle, { justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.cooking ? '#0eb347' : '#000', }]}>
-                                            {
-                                                this.state.cooking ?
-                                                    <IconMatCommu name='pot' size={25} style={{ color: '#FFF', }} /> :
-                                                    null
-                                                // <IconMatCommu name='timer-sand' size={35} style={{ color: '#FFF', }} />
-                                            }
-                                        </View>
-                                    </View>
-                                    <Text style={{ color: '#FFF', width: '40%' }}>13:58:09</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>On the way</Text>
-                                    <View style={{ width: '30%', alignItems: 'center' }}>
-                                        <View style={{
-                                            borderStyle: 'dotted',
-                                            height: 80,
-                                            backgroundColor: this.state.onTheWay ? '#0eb347' : '#000',
-                                            width: 8,
-                                            position: 'absolute',
-                                            top: 20,
-                                            left: '47%'
-                                        }} />
-                                        <View style={[styles.innerCircle, { justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.onTheWay ? '#0eb347' : '#000', }]}>
-                                            {
-                                                this.state.onTheWay ?
-                                                    <IconFA5 name='shipping-fast' size={25} style={{ color: '#FFF', }} /> :
-                                                    null
-                                                // <IconMatCommu name='timer-sand' size={35} style={{ color: '#FFF', }} />
-                                            }
-                                        </View>
-                                    </View>
-                                    <Text style={{ color: '#FFF', width: '40%' }}>14:20:55</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>Delivered</Text>
-                                    <View style={{ width: '30%', alignItems: 'center' }}>
-                                        <View style={[styles.innerCircle, { justifyContent: 'center', alignItems: 'center',backgroundColor: this.state.delivered ? '#0eb347' : '#000', }]}>
-                                            {
-                                                this.state.delivered ?
-                                                    <IconMatCommu name='cube-send' size={35} style={{ color: '#FFF', }} /> :
-                                                    null
-                                                // <IconMatCommu name='timer-sand' size={35} style={{ color: '#FFF', }} />
-                                            }
-                                        </View>
-                                    </View>
-                                    <Text style={{ color: '#FFF', width: '40%', }}>14:21:35</Text>
-                                </View>
-                            </View>
-
+                            </TouchableOpacity>
                         </View>
                     </View>
-                </Content>
-            </Container>
-        )
+                    <View>
+                        <ScrollView>
+                            <ListItem icon style={{ backgroundColor: '#FFFFFFDD', width: '90%'}} onPress={ () => {
+                                alert('OK, going to Pursuit Page');
+                                this.props.navigation.navigate('PPursuit')
+                            }}>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#007AFF" }}>
+                                        <Icon active name="ios-information-circle-outline" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Bluetooth</Text>
+                                </Body>
+                                <Right>
+                                    <Text>On</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#007AFF" }}>
+                                        <Icon active name="ios-information-circle-outline" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Bluetooth</Text>
+                                </Body>
+                                <Right>
+                                    <Text>On</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#007AFF" }}>
+                                        <Icon active name="ios-information-circle-outline" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Bluetooth</Text>
+                                </Body>
+                                <Right>
+                                    <Text>On</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#007AFF" }}>
+                                        <Icon active name="ios-information-circle-outline" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Bluetooth</Text>
+                                </Body>
+                                <Right>
+                                    <Text>On</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#007AFF" }}>
+                                        <Icon active name="ios-information-circle-outline" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Bluetooth</Text>
+                                </Body>
+                                <Right>
+                                    <Text>On</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#007AFF" }}>
+                                        <Icon active name="ios-information-circle-outline" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Bluetooth</Text>
+                                </Body>
+                                <Right>
+                                    <Text>On</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#10c547" }}>
+                                        <Icon active name="ios-checkmark-circle" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Wi-Fi</Text>
+                                </Body>
+                                <Right>
+                                    <Text>GeekyAnts</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                            <ListItem icon>
+                                <Left>
+                                    <Button style={{ backgroundColor: "#007AFF" }}>
+                                        <Icon active name="ios-information-circle-outline" />
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Text>Bluetooth</Text>
+                                </Body>
+                                <Right>
+                                    <Text>On</Text>
+                                    <Icon active name="arrow-forward" />
+                                </Right>
+                            </ListItem>
+                        </ScrollView>
+                    </View>
+
+                </View>
+
+            </>
+        );
     }
 }
 
-
-export default PursuitPage;
+export default SearchPursuit;
