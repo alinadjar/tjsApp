@@ -27,6 +27,8 @@ import {
     Label,
     Title,
 } from 'native-base';
+
+import { SettingsModal } from './SettingsModal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconEnty from 'react-native-vector-icons/Entypo';
@@ -59,7 +61,8 @@ class LoginPage extends Component {
         randomInt: 0, // random 3-digit int that sent to user via SMS
         verifySMS: 0, // the number to verify the SMS code received
         timerMinute: 0,
-        timerSecond: 20
+        timerSecond: 20,
+        show_settings_modal: true
     }
 
 
@@ -201,7 +204,15 @@ class LoginPage extends Component {
     //     return true;
     // }
 
+    
+    close_settingsModal_callback_btnYes = () => {
 
+    }
+
+
+    close_settingsModal_callback_btnNo = () => {
+
+    }
 
 
     render() {
@@ -245,7 +256,7 @@ class LoginPage extends Component {
                                                 borderTopLeftRadius: 40,
                                                 borderTopRightRadius: 40,
                                                 marginTop: '-60%',
-                                                backgroundColor: '#FFF',                                                
+                                                backgroundColor: '#FFF',
                                                 borderBottomColor: '#FFF'
                                             }}>
                                                 <Form>
@@ -492,6 +503,18 @@ class LoginPage extends Component {
                                 {/* <Text>fixed content: FOOD ICON SLIDER</Text> */}
                             </View>
                         }
+
+
+                        <SettingsModal
+                            modalVisible={this.state.show_settings_modal}
+                            headerTXT=''
+                            yesTXT='OK'
+                            noTXT='Cancel'
+                            bodyTXT="Set the API's base address:"
+                            logoType='WARNING'
+                            btnYesCallback={this.close_settingsModal_callback_btnYes}
+                            btnNoCallback={this.close_settingsModal_callback_btnNo}
+                        />
                     </View>
                 </Container>
             </>

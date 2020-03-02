@@ -25,7 +25,7 @@ import { addToCart, updateCartQuantity, clearCart, removeFromCart } from '../../
 
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-
+import { YesNoModal } from '../../utils/Modals/YesNoModal';
 
 
 class CheckoutPage extends Component {
@@ -43,6 +43,11 @@ class CheckoutPage extends Component {
     };
 
 
+    state = {
+        modal_YesNo_Show: false
+    }
+
+
     Increment = (item, value) => {
 
         console.log('parseInt(value) === 1');
@@ -56,6 +61,20 @@ class CheckoutPage extends Component {
         } else if (value === -1) {   // decrease
             this.props.addToCart(item.product, value);
         }
+    }
+
+
+    close_YesNoModal_callback_btnYes = () => {
+        this.setState({modal_YesNo_Show: false })
+        this.props.clearCart();
+
+        //this.props.navigation.navigate('LANDING_st');
+        this.props.navigation.navigate('MENU');
+    }
+
+
+    close_YesNoModal_callback_btnNo = () => {
+        this.setState({modal_YesNo_Show: false })        
     }
 
     render() {
@@ -120,24 +139,25 @@ class CheckoutPage extends Component {
                 </Container>
                 <View style={{ backgroundColor: '#c1c1c1' }}>
                     {/* <Text style={{ textAlign: 'center' }}>Total Sum: </Text> */}
-                    <NumberFormat value={this.props.totalSum} displayType={'text'} thousandSeparator={true} 
-                        prefix={''} 
-                        renderText={value => <Text style={{ textAlign: 'center', marginTop:15 }}>Total Sum: {value} </Text>} />
+                    <NumberFormat value={this.props.totalSum} displayType={'text'} thousandSeparator={true}
+                        prefix={''}
+                        renderText={value => <Text style={{ textAlign: 'center', marginTop: 15 }}>Total Sum: {value} </Text>} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, marginBottom: 20 }}>
                         <View style={{ width: '47%' }}>
-                            <TouchableHighlight
+                            <TouchableOpacity
                                 onPress={() => {
-                                    this.props.clearCart();
+                                    this.setState({modal_YesNo_Show: true});
+                                    // this.props.clearCart();
 
-                                    //this.props.navigation.navigate('LANDING_st');
-                                    this.props.navigation.navigate('MENU');
+                                    // //this.props.navigation.navigate('LANDING_st');
+                                    // this.props.navigation.navigate('MENU');
                                 }}
                             >
                                 <View style={{ backgroundColor: '#EEE', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                                     <MaterialIcon name="cancel" style={{ color: '#F22' }} size={30} />
                                     <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Cancel Order </Text>
                                 </View>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                         <View style={{ width: '47%' }}>
                             <TouchableOpacity
@@ -151,6 +171,17 @@ class CheckoutPage extends Component {
                         </View>
                     </View>
                 </View>
+                <YesNoModal
+                    modalVisible={this.state.modal_YesNo_Show}
+                    headerTXT=''
+                    yesTXT='OK'
+                    noTXT='Cancel'
+                    bodyTXT='Sure to cancel order?'
+                    logoType='WARNING'
+                    btnYesCallback={ this.close_YesNoModal_callback_btnYes }
+                    btnNoCallback={ this.close_YesNoModal_callback_btnNo }
+                />
+
             </>
         )
     }

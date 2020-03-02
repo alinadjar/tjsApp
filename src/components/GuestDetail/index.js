@@ -15,13 +15,18 @@ import {
     Form,
     Item,
     Input,
-    Label,
+    Label, H1, H2,
     ActionSheet, Left, Right, Body, Title, Icon
 } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import IconEntypo from 'react-native-vector-icons/Entypo';
+import IconMatCammu from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFontisito from 'react-native-vector-icons/Fontisto';
+
+import { AlertModal } from '../../utils/Modals/AlertModal';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -39,10 +44,10 @@ import { saveGuestInfo } from '../../iRedux/Actions/guest_Actions';
 // ];
 
 var BUTTONS = [
-    { typeID: 2, text: "Restaurant", icon: "american-football", iconColor: "#2c8ef4" },
+    { typeID: 2, text: "Restaurant", icon: "restaurant", iconColor: "#2c8ef4" },
     { typeID: 6, text: "Takeout", icon: "analytics", iconColor: "#f42ced" },
     { typeID: 7, text: "Roof garden", icon: "aperture", iconColor: "#ea943b" },
-    { typeID: 0, text: "Cancel", icon: "close", iconColor: "#25de5b" }
+    { typeID: 0, text: "Cancel", icon: "close", iconColor: "#F00" }
 ];
 var DESTRUCTIVE_INDEX = 2;
 var CANCEL_INDEX = 3;
@@ -66,6 +71,7 @@ class GuestDetailsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            modal_Alert_Show: true,
             formData: {
                 family: this.props.guestInfo.family || "",
                 mobile: this.props.guestInfo.mobile || "",
@@ -110,7 +116,7 @@ class GuestDetailsPage extends Component {
         // console.log(event.target.value);
         // this.setState(state => state.formData['family'] = event.target.value);
 
-        this.setState(state => state.formData[inputName] = txt );
+        this.setState(state => state.formData[inputName] = txt);
     }
 
 
@@ -119,14 +125,22 @@ class GuestDetailsPage extends Component {
         // dispatch make reservation
     }
 
+    close_AlertModal_callback_btnReturn = () => {
+        this.setState({ modal_Alert_Show: false });
+    }
+
+    close_AlertModal_callback = () => {
+        this.setState({ modal_Alert_Show: false });
+    }
+
 
     render() {
+
         const styles = StyleSheet.create({
             inp: {
                 textAlign: 'center',
                 backgroundColor: '#FFF',
-                borderRadius: 5,
-                width: 70,
+                borderRadius: 5,                
                 marginBottom: 10
             },
 
@@ -134,16 +148,17 @@ class GuestDetailsPage extends Component {
 
 
 
+
         return (
             <Container>
                 <Header style={{ backgroundColor: '#272221' }}>
                     <Left>
-                        <Button transparent>
+                        <Button transparent onPress={() => this.props.navigation.navigate('CART') }>
                             <Icon name='arrow-back' />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Header</Title>
+                        <Title></Title>
                     </Body>
                     <Right>
                         {/* <Button transparent>
@@ -151,119 +166,104 @@ class GuestDetailsPage extends Component {
                         </Button> */}
                     </Right>
                 </Header>
-                <Content style={{ backgroundColor: '#EEE', }}>
-                    {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Content contentContainerStyle={{ flex:1, backgroundColor: '#F00', }}>
+                    <View style={{
+                        flex: 1,  alignItems: 'center', backgroundColor: '#272221',
+                    }}>
                         <Image source={require('../../assets/images/misc/orderDetails.png')}
                             style={{
                                 height: 90,
                                 width: 80,
                                 resizeMode: 'contain',
-                                marginLeft: 'auto',
-                                marginRight: 'auto'
+                                marginBottom: 10
+                                // marginLeft: 'auto',
+                                // marginRight: 'auto'
                             }} />
-                        <View style={{ flexDirection: 'row' }}>
-                            <Ionicons name="md-person" size={30} color="#900" style={{ width: 40 }} />
-                            <Input style={styles.inp} placeholder='Family' />
-                        </View>
-                        <View>
-                            <IconFA5 name="mobile-alt" size={30} color="#900" style={{ width: 40 }} />
-                            <Input style={styles.inp} placeholder='mobile' />
-                        </View>
-                        <View>
-                            <IconEntypo name="layers" size={30} color="#900" style={{ width: 40 }} />
-                            <Input style={styles.inp} placeholder='Desk' />
-                        </View>
-                        <View>
-                            <IconFA5 name="users" size={30} color="#900" style={{ width: 40 }} />
-                            <Input style={styles.inp} placeholder='num' />
-                        </View>
-                    </View> */}
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-                        <Image source={require('../../assets/images/misc/orderDetails.png')}
-                            style={{
-                                height: 90,
-                                width: 80,
-                                resizeMode: 'contain',
-                                marginLeft: 'auto',
-                                marginRight: 'auto'
-                            }} />
-                        <Form style={{ width: '80%', marginTop: 10 }}>
-                            <Item fixedLabel>
-                                {/* <Label>guest name</Label> */}
-                                <Ionicons name="md-person" size={30} color="#900" style={{ width: 40 }} />
-                                <Input style={styles.inp} placeholder='Family' name='family'
-                                    value={this.state.formData.family} onChangeText={ txt => this.handleChange(txt, 'family') } />
-                            </Item>
-                            <Item fixedLabel>
-                                <IconFA5 name="mobile-alt" size={30} color="#900" style={{ width: 40 }} />
-                                <Input type='text' style={styles.inp} placeholder='mobile' name="mobile" keyboardType="numeric"
-                                    value={this.state.formData.mobile} onChangeText={ txt => this.handleChange(txt, 'mobile') } />
-                            </Item>
-                            <Item fixedLabel>
-                                {/* <Label>Desk number</Label> */}
-                                <IconEntypo name="layers" size={30} color="#900" style={{ width: 40 }} />
-                                <Input style={styles.inp} placeholder='Desk' name="deskNumber" keyboardType="numeric"
-                                    value={this.state.formData.deskNumber} onChangeText={ txt => this.handleChange(txt, 'deskNumber') } />
-                            </Item>
-                            <Item fixedLabel last>
-                                {/* <Label>Count</Label> */}
-                                <IconFA5 name="users" size={30} color="#900" style={{ width: 40 }} />
-                                <Input style={styles.inp} placeholder='num' name='companions' keyboardType="numeric"
-                                    value={this.state.formData.companions} onChangeText={ txt => this.handleChange(txt, 'companions') } />
-                            </Item>
-                            <Item style={{ width: '100%', backgroundColor: '#F00' }}>
-                                <IconFA name='shopping-bag' size={30} color="#900" style={{ width: 40 }} />
-                                <View style={{ backgroundColor: '#000', marginBottom: 10, width: '100%' }}>
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            ActionSheet.show(
-                                                {
-                                                    options: BUTTONS,
-                                                    cancelButtonIndex: CANCEL_INDEX,
-                                                    destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                                                    title: "Order Type"
-                                                },
-                                                buttonIndex => {
-                                                    console.log('*-*-*-*-*-*-*-*-*-*-*-*-*');
-                                                    console.log(BUTTONS[buttonIndex]); // logs the object
-                                                    //this.setState({ [this.state.formData.orderType]: (BUTTONS[buttonIndex]).typeID });
-                                                    this.setState(state => state.formData.orderType = (BUTTONS[buttonIndex]).typeID);
-                                                    alert((BUTTONS[buttonIndex]).text);
-                                                }
-                                            )}
-                                    >
-                                        <Text style={{ color: '#FFF', textAlign: 'center', height: 30 }}>  Order type </Text>
-                                    </TouchableOpacity>
+
+                        <View style={{
+                            width: '100%',  
+                            height: '100%',
+                            backgroundColor: '#EEE',
+                            //borderWidth: 1,
+                            borderTopWidth: 1,
+                            borderRightWidth: 1,
+                            borderLeftWidth: 1,
+                            borderTopLeftRadius: 40,
+                            borderTopRightRadius: 40,
+                            //justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+
+                            <View style={{
+                                padding: 10,
+                                width: '80%',
+                                marginTop: 10
+                            }}>
+                                <H2 style={{ textAlign: 'center', marginBottom: 30 }}>Guest Info</H2>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Ionicons name="md-person" size={30} color="#900" style={{ width: 40 }} />
+                                    <Input style={styles.inp} placeholder='Family' />
                                 </View>
-                            </Item>
-
-                            <TouchableOpacity
-                                onPress={ this.submitForm }
-                            >
-                                <View style={{ backgroundColor: '#ffda00', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text style={{ color: '#000', textAlign: 'center', height: 30 }}>  Reserve </Text>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <IconFA5 name="mobile-alt" size={30} color="#900" style={{ width: 40 }} />
+                                    <Input style={styles.inp} placeholder='mobile' keyboardType="numeric" />
                                 </View>
-                            </TouchableOpacity>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <IconEntypo name="layers" size={30} color="#900" style={{ width: 40 }} />
+                                    <Input style={styles.inp} placeholder='Desk' keyboardType="numeric" />
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <IconFA5 name="users" size={30} color="#900" style={{ width: 40 }} />
+                                    <Input style={styles.inp} placeholder='num' keyboardType="numeric" />
+                                </View>
 
 
+                                <TouchableOpacity style={{ marginBottom: 10}}
+                                    onPress={() =>
+                                        ActionSheet.show(
+                                            {
+                                                options: BUTTONS,
+                                                cancelButtonIndex: CANCEL_INDEX,
+                                                destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                                                title: "Order Type"
+                                            },
+                                            buttonIndex => {
 
-                        </Form>
-
-
-
-
-                        {/* <View>
-                            <Text> GuestDetails Page .... </Text>
-
-                            <Button
-                                onPress={() => this.props.navigation.navigate('LANDING_st')}>
-                                <Text>
-                                    landing
-                            </Text>
-                            </Button>
-                        </View> */}
+                                                //console.log(BUTTONS[buttonIndex]); // logs the object
+                                                //this.setState({ [this.state.formData.orderType]: (BUTTONS[buttonIndex]).typeID });
+                                                this.setState(state => state.formData.orderType = (BUTTONS[buttonIndex]).typeID);
+                                                alert((BUTTONS[buttonIndex]).text);
+                                            }
+                                        )}
+                                >
+                                    <View style={{ backgroundColor: '#AAA', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                        <IconFA name='shopping-bag' size={30} color="#000" style={{ width: 40 }} />
+                                        <Text style={{ color: '#000', textAlign: 'center', height: 30 }}>  </Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={this.submitForm}
+                                >
+                                    <View style={{ backgroundColor: '#ffda00', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Text style={{ color: '#000', textAlign: 'center', height: 30 }}>  Reserve </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
+                    
+
+
+                    <AlertModal                        
+                        modalVisible={this.state.modal_Alert_Show}
+                        returnTXT='OK'
+                        bodyTXT='Your request faced Error'
+                        logoType='CONFIRM'
+                        logoTXT='SUCCESS'
+                        btnReturnCallback={this.close_AlertModal_callback_btnReturn}
+                        closeCallback={this.close_AlertModal_callback}
+                    />
                 </Content>
             </Container>
         )
