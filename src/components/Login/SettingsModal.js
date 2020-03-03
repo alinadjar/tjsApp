@@ -47,9 +47,9 @@ export class SettingsModal extends Component {
                                 <Image source={require('../../assets/images/setting.png')} style={{ width: 70, height: 80 }} />
                             </View>
                         </View>
-                        <View style={{ height: 120, padding: 7,  }}>
+                        <View style={{ height: 120, padding: 7, }}>
                             <Text style={{ fontSize: 18, marginTop: 10 }}>{this.props.bodyTXT}</Text>
-                            <View style={{ marginTop: 10, alignItems: 'center'}}>
+                            <View style={{ marginTop: 10, alignItems: 'center' }}>
                                 <TextInput
                                     placeholder='http://192.168.87.62:7471'
                                     style={{
@@ -58,7 +58,7 @@ export class SettingsModal extends Component {
                                         borderwidth: 1,
                                         borderColor: '#F00',
                                         borderRadius: 5,
-                                        backgroundColor: '#FFF', 
+                                        backgroundColor: '#FFF',
                                     }}
                                     onChangeText={text => this.onChangeText(text)}
                                 />

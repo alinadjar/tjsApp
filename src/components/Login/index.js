@@ -11,7 +11,7 @@ import {
     ScrollView,
     SafeAreaView,
     TextInput,
-    StyleSheet
+    StyleSheet, Picker
 } from 'react-native';
 import {
     Container,
@@ -62,7 +62,7 @@ class LoginPage extends Component {
         verifySMS: 0, // the number to verify the SMS code received
         timerMinute: 0,
         timerSecond: 20,
-        show_settings_modal: true
+        show_settings_modal: false
     }
 
 
@@ -204,7 +204,7 @@ class LoginPage extends Component {
     //     return true;
     // }
 
-    
+
     close_settingsModal_callback_btnYes = () => {
 
     }
@@ -233,6 +233,24 @@ class LoginPage extends Component {
                             >
                                 <IconEnty name='dots-three-vertical' color='#000' size={20} />
                             </Button>
+                            {/* <Picker
+                                mode="dropdown"
+                                //mode="dialog"
+                                placeholder="Select One"
+                                placeholderStyle={{ color: "#2874F0" }}
+                                note={false}
+                                selectedValue={this.state.selected}
+                                //onValueChange={this.onValueChange.bind(this)}
+                                selectedValue={this.state.language}
+                                style={{ height: 50, width: 200 }}
+                                onValueChange={(itemValue, itemIndex) =>{
+                                    this.setState({ language: itemValue });
+                                    alert(itemIndex);
+                                }                                    
+                                }>
+                                <Picker.Item label="Java" value="java" />
+                                <Picker.Item label="JavaScript" value="js" />
+                            </Picker> */}
                         </Right>
                     </Header>
                     <View style={{ flex: 1 }}>

@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.8.1",
     "@react-native-community/masked-view": "^0.1.6",
     "@react-navigation/bottom-tabs": "^5.0.3",
     "axios": "^0.19.2",
@@ -19,6 +20,7 @@
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.5.6",
     "react-native-image-slider-box": "^1.0.12",
+    "react-native-popup-menu": "^0.15.7",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.0.0-beta.2",
