@@ -2,10 +2,11 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-export const API_BASEURL = 'http://192.168.87.62:5000/';
+export const API_BASEURL_DEFAULT = 'http://192.168.87.62:5000/';
+export const APP_VERSION = '1.0.0';
 
 // export const FIREBASEURL = `https://nba-app-b961b.firebaseio.com`;
-// export const APIKEY = `AIzaSyDjnjWsOjtSobEWkTJXUjH4o6VkqOFT7TA`;
+// export const APIKEY = ``;
 // export const SIGNUP = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKEY}`;
 // export const SIGNIN = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${APIKEY}`;
 // export const REFRESH = `https://securetoken.googleapis.com/v1/token?key=${APIKEY}`;
@@ -33,10 +34,11 @@ export const getData = async (key) => {
         //     console.log(value);
         //     return value;
         // }
-        return value;
+        console.log(value);
+        return (value === null) ? API_BASEURL_DEFAULT : value 
     } catch (e) {
         // error reading value
-        return null;
+        return API_BASEURL_DEFAULT;
     }
 }
 

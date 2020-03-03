@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Image, StyleSheet } from 'react-native';
+import { View, ScrollView, Image, StyleSheet, BackHandler } from 'react-native';
 import {
     Container, Content, Header,
     Button,
@@ -32,6 +32,22 @@ class SearchPursuit extends Component {
         // },
         headerShown: false,
     };
+
+
+    
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+    }
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+    }
+
+    backPressed = () => {
+        //this.props.navigation.goBack();   // if in the same stack      
+        this.props.navigation.navigate('LANDING');
+        
+        return true;
+    }
 
     render() {
         return (

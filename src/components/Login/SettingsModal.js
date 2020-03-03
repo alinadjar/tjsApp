@@ -15,9 +15,14 @@ import IconEntypo from 'react-native-vector-icons/Entypo';
 
 export class SettingsModal extends Component {
 
+    state = {
+        IP: ''
+    }
+
 
     onChangeText = (txt) => {
         console.log(txt);
+        this.setState({ IP: txt });
     }
 
     render() {
@@ -44,14 +49,14 @@ export class SettingsModal extends Component {
                                 <Text style={{ color: '#FFF', fontSize: 16, }}>Server IP{this.props.headerTXT}</Text>
                             </View>
                             <View style={{ alignItems: 'flex-end' }}>
-                                <Image source={require('../../assets/images/setting.png')} style={{ width: 70, height: 80 }} />
+                                <Image source={require('../../assets/images/setting.png')} style={{ width: 60, height: 75, resizeMode: 'contain', marginTop: -5 }} />
                             </View>
                         </View>
                         <View style={{ height: 120, padding: 7, }}>
                             <Text style={{ fontSize: 18, marginTop: 10 }}>{this.props.bodyTXT}</Text>
                             <View style={{ marginTop: 10, alignItems: 'center' }}>
-                                <TextInput
-                                    placeholder='http://192.168.87.62:7471'
+                                <TextInput                                
+                                    placeholder={this.props.placehold}
                                     style={{
                                         fontSize: 18,
                                         textAlign: 'center',
@@ -59,7 +64,11 @@ export class SettingsModal extends Component {
                                         borderColor: '#F00',
                                         borderRadius: 5,
                                         backgroundColor: '#FFF',
+                                        width: '90%',
+                                        borderBottomColor: '#a0e7c5',
+                                        borderBottomWidth: 2
                                     }}
+                                    value={this.state.IP}
                                     onChangeText={text => this.onChangeText(text)}
                                 />
                             </View>
@@ -76,7 +85,7 @@ export class SettingsModal extends Component {
                             <View style={{ height: 40, justifyContent: 'center', alignItems: 'center', paddingTop: 5, paddingBottom: 5 }}>
                                 <TouchableHighlight style={{ backgroundColor: '#EEE', borderRadius: 5, paddingLeft: 10, paddingRight: 10, width: 100 }}
                                     onPress={() => {
-                                        this.props.btnYesCallback();
+                                        this.props.btnYesCallback(this.state.IP);
                                     }}>
                                     <Text style={{ color: '#333', fontSize: 20, padding: 2, textAlign: 'center' }}>{this.props.yesTXT}</Text>
                                 </TouchableHighlight>

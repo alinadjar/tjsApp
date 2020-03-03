@@ -79,18 +79,19 @@ class PursuitPage extends Component {
     };
 
 
-    // componentDidMount() {
-    //     BackHandler.addEventListener('hardwareBackPress', this.backPressed);
-    // }
-    // componentWillUnmount() {
-    //     BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
-    // }
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+    }
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+    }
 
-    // backPressed = () => {
-    //     //this.props.navigation.goBack();   // if in the same stack      
-    //     this.props.navigation.navigate('LANDING');
-    //     return true;
-    // }
+    backPressed = () => {
+        this.props.navigation.goBack();   // if in the same stack      
+        //this.props.navigation.navigate('LANDING');
+        
+        return true;
+    }
 
 
     render() {

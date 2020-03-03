@@ -32,6 +32,8 @@ import { SettingsModal } from './SettingsModal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconEnty from 'react-native-vector-icons/Entypo';
+import IconAnt from 'react-native-vector-icons/AntDesign';
+import IconMatCommu from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 import { saveGuestMobile } from '../../iRedux/Actions/guest_Actions';
@@ -40,13 +42,63 @@ import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
+import { storeData, getData } from '../../utils/misc';
+
+
+
+import Menu, {
+    MenuProvider,
+    MenuTrigger,
+    MenuOptions,
+    MenuOption,
+    renderers,
+} from 'react-native-popup-menu';
+
+const { SlideInMenu } = renderers;
+
+
 const styles = StyleSheet.create({
     gracefulCurve: {
         borderWidth: 1,
-        borderBottomLeftRadius: 80,
-        borderBottomRightRadius: 15,
-        borderBottomColor: '#f96bd4',
-    }
+        borderBottomLeftRadius: 70,
+        borderBottomRightRadius: 20,
+        borderBottomColor: '#000',
+    },
+    topbar: {
+        flexDirection: 'row',
+        backgroundColor: '#272221',
+        paddingTop: 15,
+    },
+    trigger: {
+        padding: 5,
+        margin: 5,
+    },
+    triggerText: {
+        color: 'white',
+    },
+    disabled: {
+        color: '#ccc',
+    },
+    divider: {
+        marginVertical: 5,
+        marginHorizontal: 2,
+        borderBottomWidth: 1,
+        borderColor: '#ccc',
+    },
+    logView: {
+        flex: 1,
+        flexDirection: 'column',
+    },
+    logItem: {
+        flexDirection: 'row',
+        padding: 8,
+    },
+    slideInOption: {
+        padding: 5,
+    },
+    text: {
+        fontSize: 18,
+    },
 });
 
 class LoginPage extends Component {
@@ -62,7 +114,8 @@ class LoginPage extends Component {
         verifySMS: 0, // the number to verify the SMS code received
         timerMinute: 0,
         timerSecond: 20,
-        show_settings_modal: false
+        show_settings_modal: false,
+        API_ADDRESS: ''
     }
 
 
@@ -94,9 +147,7 @@ class LoginPage extends Component {
         }
     }
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
+
 
 
     // componentDidMount() {
@@ -124,13 +175,15 @@ class LoginPage extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.backPressed);
     }
     componentWillUnmount() {
+        clearInterval(this.interval);
+
         BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
     }
 
     backPressed = () => {
 
-        this.props.navigation.goBack(null);
-
+        //this.props.navigation.goBack(null);        
+        //BackHandler.exitApp();        
         return true;
     }
 
@@ -205,13 +258,42 @@ class LoginPage extends Component {
     // }
 
 
-    close_settingsModal_callback_btnYes = () => {
+    close_settingsModal_callback_btnYes = async (IP) => {
+        alert('going to save in LocalStorage');
 
+        let result = await storeData('@API_BASEURL', IP);
+        if (result == true) {
+            alert('write to asyncStorage successful');
+        }
+        else {
+            alert('write to asyncStorage failed');
+        }
+        this.setState({ show_settings_modal: false });
     }
 
 
     close_settingsModal_callback_btnNo = () => {
+        this.setState({ show_settings_modal: false });
+    }
 
+
+    // context menu item selected
+    selectOptionType = async (value) => {
+        switch (value) {
+            case 'IP':
+                this.setState({
+                    show_settings_modal: true,
+                    API_ADDRESS: await getData('@API_BASEURL')
+                });
+                break;
+            case 'SETTING':
+                alert('Setting');
+                break;
+            case 'EXIT':
+                //alert('exit');
+                BackHandler.exitApp();
+                break;
+        }
     }
 
 
@@ -220,321 +302,324 @@ class LoginPage extends Component {
 
         return (
             <>
-                <Container style={{ backgroundColor: '#f96bd4' }}>
-                    <Header style={{ backgroundColor: '#ffda00' }}>
-                        <Left>
-                        </Left>
-                        <Body>
-                            <Title style={{ color: '#000' }}>Header</Title>
-                        </Body>
-                        <Right>
-                            <Button transparent
-                                onPress={() => alert('open top picker menu')}
+                <MenuProvider style={{ flex: 1 }}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                    }}>
+
+                        <View style={styles.topbar}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ marginLeft: 20, fontWeight: 'bold', fontSize: 18, color: '#EEE' }}>Header</Text>
+                            </View>
+                            <Menu name="types" onSelect={value => this.selectOptionType(value)}
+                                onBackdropPress={() => console.log('menu will be closed by backdrop')}
+                                onOpen={() => console.log('menu is opening')}
+                                onClose={() => console.log('menu is closing')}
                             >
-                                <IconEnty name='dots-three-vertical' color='#000' size={20} />
-                            </Button>
-                            {/* <Picker
-                                mode="dropdown"
-                                //mode="dialog"
-                                placeholder="Select One"
-                                placeholderStyle={{ color: "#2874F0" }}
-                                note={false}
-                                selectedValue={this.state.selected}
-                                //onValueChange={this.onValueChange.bind(this)}
-                                selectedValue={this.state.language}
-                                style={{ height: 50, width: 200 }}
-                                onValueChange={(itemValue, itemIndex) =>{
-                                    this.setState({ language: itemValue });
-                                    alert(itemIndex);
-                                }                                    
-                                }>
-                                <Picker.Item label="Java" value="java" />
-                                <Picker.Item label="JavaScript" value="js" />
-                            </Picker> */}
-                        </Right>
-                    </Header>
-                    <View style={{ flex: 1 }}>
-                        <View style={[{
-                            flex: 1,
-                            backgroundColor: '#FFF'
-                        }, this.state.showCards ? styles.gracefulCurve : {}]}>
-                            <ScrollView>
-                                <View style={{
-                                    flex: 1, backgroundColor: '#FFF', justifyContent: 'center', marginTop: 5,
-                                    marginBottom: 5
-                                }}>
+                                <MenuTrigger
+                                    onAlternativeAction={() => console.log('trigger longpressed')}
+                                    style={styles.trigger}>
+                                    <Text style={[styles.text, styles.triggerText]}><IconEnty name='dots-three-vertical' color='#EEE' size={20} /></Text>
+                                </MenuTrigger>
+                                <MenuOptions customStyles={{ optionText: styles.text }}>
+                                    <MenuOption value="IP"><Text> <IconMatCommu name='server-network' size={18} style={{ color: '#44F' }} /> Server IP</Text></MenuOption>
+                                    <MenuOption value="SETTING" disabled={true} ><Text style={{ color: '#AAA' }}><Ionicons name='ios-settings' size={20} style={{ color: '#AAA' }} /> Settings</Text></MenuOption>
+                                    <View style={styles.divider} />
+                                    {/* <MenuOption value={{ text: 'Hello world!' }} text='Object as value' /> */}
+                                    <MenuOption value="EXIT" ><Text><IconAnt name='logout' size={18} style={{ color: '#44F' }} /> Exit</Text></MenuOption>
+                                </MenuOptions>
+                            </Menu>
+                        </View>
+                        {/* <Container style={{ backgroundColor: '#f96bd4' }}> */}
 
-                                    {
-                                        this.state.LoginGarson &&
-                                        <View style={{}}>
-                                            <Image source={require('../../assets/images/Login/banner1.jpg')} style={{ width: '100%' }} />
+                        <View style={{ flex: 1, backgroundColor: '#ffda00' }}>
+                            <View style={[{
+                                flex: 1,
+                                backgroundColor: '#FFF'
+                            }, this.state.showCards ? styles.gracefulCurve : {}]}>
+                                <ScrollView>
+                                    <View style={{
+                                        flex: 1, backgroundColor: '#FFF', justifyContent: 'center', marginTop: 5,
+                                        marginBottom: 5
+                                    }}>
 
-                                            <View style={{
-                                                borderWidth: 1,
-                                                borderTopLeftRadius: 40,
-                                                borderTopRightRadius: 40,
-                                                marginTop: '-60%',
-                                                backgroundColor: '#FFF',
-                                                borderBottomColor: '#FFF'
-                                            }}>
-                                                <Form>
-                                                    <FormItem floatingLabel>
-                                                        <Label><Icon active name='user-alt' size={24} style={{ color: '#000', width: '10%' }} /> Username</Label>
-                                                        <Input style={{ width: '90%', textAlign: 'center' }} />
-                                                    </FormItem>
-                                                    <FormItem floatingLabel last>
-                                                        <Label><Ionicons active name='ios-lock' size={24} style={{ color: '#000', width: '10%' }} />    Password</Label>
-                                                        <Input secureTextEntry={true} style={{ width: '90%', textAlign: 'center' }} />
-                                                    </FormItem>
+                                        {
+                                            this.state.LoginGarson &&
+                                            <View style={{}}>
+                                                <Image source={require('../../assets/images/Login/banner1.jpg')} style={{ width: '100%' }} />
+
+                                                <View style={{
+                                                    borderWidth: 1,
+                                                    borderTopLeftRadius: 40,
+                                                    borderTopRightRadius: 40,
+                                                    marginTop: '-60%',
+                                                    backgroundColor: '#FFF',
+                                                    borderBottomColor: '#FFF'
+                                                }}>
+                                                    <Form>
+                                                        <FormItem floatingLabel>
+                                                            <Label><Icon active name='user-alt' size={24} style={{ color: '#000', width: '10%' }} /> Username</Label>
+                                                            <Input style={{ width: '90%', textAlign: 'center' }} />
+                                                        </FormItem>
+                                                        <FormItem floatingLabel last>
+                                                            <Label><Ionicons active name='ios-lock' size={24} style={{ color: '#000', width: '10%' }} />    Password</Label>
+                                                            <Input secureTextEntry={true} style={{ width: '90%', textAlign: 'center' }} />
+                                                        </FormItem>
 
 
 
-                                                    {/* <Button block primary style={{ width: '40%', marginTop: 50, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                                                        {/* <Button block primary style={{ width: '40%', marginTop: 50, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                                                     onPress={() => {
                                                         this.props.navigation.navigate('LANDING_st');
                                                     }}
                                                 >
                                                     <Text style={{}}> Login </Text>
                                                 </Button> */}
-                                                    <View style={{ flex: 1, alignItems: 'center' }}>
-                                                        <TouchableOpacity
+                                                        <View style={{ flex: 1, alignItems: 'center' }}>
+                                                            <TouchableOpacity
+                                                                onPress={() => {
+                                                                    this.props.navigation.navigate('LANDING_st');
+                                                                }}
+                                                            >
+                                                                <View style={{ backgroundColor: '#FFDA00', marginTop: 50, width: '100%', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                                    <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Login</Text>
+                                                                </View>
+                                                            </TouchableOpacity>
+                                                            <Button transparent style={{ marginTop: 10, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                                                                onPress={() => {
+                                                                    this.setState({
+                                                                        LoginGarson: false,
+                                                                        showCards: true,
+                                                                    });
+                                                                }}>
+                                                                <Text>بازگشت</Text>
+                                                            </Button>
+                                                        </View>
+                                                    </Form>
+                                                </View>
+                                            </View>
+                                        }
+
+                                        {
+                                            this.state.LoginGuest &&
+                                            <View style={{
+                                                flex: 1,
+                                                flexDirection: 'column',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                marginTop: '10%',
+                                                backgroundColor: '#FFF'
+                                            }}>
+
+                                                {
+                                                    !this.state.mobileSent &&
+                                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                                                        <Text> Mobile Number:</Text>
+                                                        <Input style={{ borderWidth: 0, borderBottomWidth: 1, height: 40, textAlign: 'center', fontSize: 27, borderBottomColor: '#F00', borderRadius: 5, backgroundColor: '#FFF' }}
+                                                            maxLength={11} placeholder='0000-000-0000' keyboardType="numeric"
+                                                            value={this.state.mobileNumber} onChangeText={txt => this.setState(state => state.mobileNumber = txt)} />
+                                                        <Button block primary style={{ marginTop: 10, textAlign: 'center' }}
                                                             onPress={() => {
-                                                                this.props.navigation.navigate('LANDING_st');
+                                                                alert('SMS to be sent...');
+                                                                this.setState({ mobileSent: true },
+                                                                    () => this.props.saveGuestMobile(this.state.mobileNumber));
+
+
+                                                                const min = 100;
+                                                                const max = 999;
+                                                                const rand = min + Math.random() * (max - min);
+                                                                this.setState({ randomInt: Math.round(rand), verifySMS: 0 });
+                                                                console.log(Math.round(rand));
+                                                                // Axios Call to API and send SMS
+                                                                // [POST] /api/v1/SendSMS/{mobile: 09150000, msg: 748}
+
+
+
+                                                                this.interval = setInterval(
+                                                                    () => this.setState((prevState) => {
+                                                                        return {
+                                                                            timerMinute: Math.max(prevState.timerSecond === 0 ? prevState.timerMinute - 1 : prevState.timerMinute, 0),
+                                                                            timerSecond: prevState.timerSecond - 1 < 0 ? 59 : (prevState.timerSecond - 1)
+                                                                        }
+                                                                    }),
+                                                                    1000
+                                                                );
                                                             }}
                                                         >
-                                                            <View style={{ backgroundColor: '#FFDA00', marginTop: 50, width: '100%', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                                                <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Login</Text>
-                                                            </View>
-                                                        </TouchableOpacity>
-                                                        <Button transparent style={{ marginTop: 10, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                                                            <Text> ارسال </Text>
+                                                        </Button>
+                                                    </View>
+                                                }
+
+                                                {
+                                                    this.state.mobileSent &&
+                                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                                                        <Text> Enter the Received Code: </Text>
+                                                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', padding: 20, width: '80%' }}>
+                                                            <TextInput
+                                                                autoFocus={true}
+                                                                maxLength={1}
+                                                                keyboardType="numeric"
+                                                                style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10 }}
+                                                                onChangeText={(num) => { this.setState({ verifySMS: num }); this.secondTextInput.focus(); }} />
+                                                            <TextInput
+                                                                ref={(input) => { this.secondTextInput = input; }}
+                                                                maxLength={1}
+                                                                keyboardType="numeric"
+                                                                style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, marginRight: '5%', marginLeft: '5%' }}
+                                                                onChangeText={(num) => {
+                                                                    this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) });
+                                                                    this.thirdTextInput.focus();
+                                                                }} />
+                                                            <TextInput
+                                                                ref={(input) => { this.thirdTextInput = input; }}
+                                                                maxLength={1}
+                                                                keyboardType="numeric"
+                                                                style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, }}
+                                                                onChangeText={(num) => {
+                                                                    this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) });
+                                                                }} />
+                                                        </View>
+                                                        <Button block primary style={{ marginTop: 10, textAlign: 'center' }}
                                                             onPress={() => {
-                                                                this.setState({
-                                                                    LoginGarson: false,
-                                                                    showCards: true,
-                                                                });
-                                                            }}>
-                                                            <Text>بازگشت</Text>
+                                                                //alert('SMS code: ' + JSON.stringify(this.state.verifySMS));
+                                                                console.log('=============> ' + JSON.stringify(this.state.verifySMS));
+                                                                console.log('=============> ' + JSON.stringify(this.state.randomInt));
+                                                                //this.props.navigation.navigate('LAND');
+                                                                if (parseInt(this.state.verifySMS) === parseInt(this.state.randomInt)) {
+                                                                    this.props.navigation.navigate('LAND');
+                                                                }
+                                                            }}
+                                                        >
+                                                            <Text> تایید </Text>
                                                         </Button>
+                                                        <View style={{ marginBottom: 20, marginTop: 15, backgroundColor: '#000', borderRadius: 5, padding: 10, paddingRight: 30, paddingLeft: 30, flexDirection: 'row' }}>
+                                                            <IconEnty name='stopwatch' size={25} color='#EEE' style={{ padding: 5 }} />
+                                                            <Text style={{ color: '#FFF', fontSize: 25, fontWeight: 'bold' }}> {this.state.timerMinute} : {this.state.timerSecond}</Text>
+                                                        </View>
+
                                                     </View>
-                                                </Form>
+                                                }
+
+
+                                                <Button transparent onPress={() => this.setState({
+                                                    LoginGuest: false,
+                                                    showCards: true,
+                                                    mobileSent: false
+                                                })}>
+                                                    <Text>بازگشت</Text>
+                                                </Button>
+
                                             </View>
-                                        </View>
-                                    }
 
-                                    {
-                                        this.state.LoginGuest &&
-                                        <View style={{
-                                            flex: 1,
-                                            flexDirection: 'column',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            marginTop: '10%',
-                                            backgroundColor: '#FFF'
-                                        }}>
-
-                                            {
-                                                !this.state.mobileSent &&
-                                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                                                    <Text> Mobile Number:</Text>
-                                                    <Input style={{ borderWidth: 0, borderBottomWidth: 1, height: 40, textAlign: 'center', fontSize: 27, borderBottomColor: '#F00', borderRadius: 5, backgroundColor: '#FFF' }}
-                                                        maxLength={11} placeholder='0000-000-0000' keyboardType="numeric"
-                                                        value={this.state.mobileNumber} onChangeText={txt => this.setState(state => state.mobileNumber = txt)} />
-                                                    <Button block primary style={{ marginTop: 10, textAlign: 'center' }}
-                                                        onPress={() => {
-                                                            alert('SMS to be sent...');
-                                                            this.setState({ mobileSent: true },
-                                                                () => this.props.saveGuestMobile(this.state.mobileNumber));
+                                        }
 
 
-                                                            const min = 100;
-                                                            const max = 999;
-                                                            const rand = min + Math.random() * (max - min);
-                                                            this.setState({ randomInt: Math.round(rand), verifySMS: 0 });
-                                                            console.log(Math.round(rand));
-                                                            // Axios Call to API and send SMS
-                                                            // [POST] /api/v1/SendSMS/{mobile: 09150000, msg: 748}
-
-
-
-                                                            this.interval = setInterval(
-                                                                () => this.setState((prevState) => {
-                                                                    return {
-                                                                        timerMinute: Math.max(prevState.timerSecond === 0 ? prevState.timerMinute - 1 : prevState.timerMinute, 0),
-                                                                        timerSecond: prevState.timerSecond - 1 < 0 ? 59 : (prevState.timerSecond - 1)
-                                                                    }
-                                                                }),
-                                                                1000
-                                                            );
-                                                        }}
-                                                    >
-                                                        <Text> ارسال </Text>
-                                                    </Button>
-                                                </View>
-                                            }
-
-                                            {
-                                                this.state.mobileSent &&
-                                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                                                    <Text> Enter the Received Code: </Text>
-                                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', padding: 20, width: '80%' }}>
-                                                        <TextInput
-                                                            autoFocus={true}
-                                                            maxLength={1}
-                                                            keyboardType="numeric"
-                                                            style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10 }}
-                                                            onChangeText={(num) => { this.setState({ verifySMS: num }); this.secondTextInput.focus(); }} />
-                                                        <TextInput
-                                                            ref={(input) => { this.secondTextInput = input; }}
-                                                            maxLength={1}
-                                                            keyboardType="numeric"
-                                                            style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, marginRight: '5%', marginLeft: '5%' }}
-                                                            onChangeText={(num) => {
-                                                                this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) });
-                                                                this.thirdTextInput.focus();
-                                                            }} />
-                                                        <TextInput
-                                                            ref={(input) => { this.thirdTextInput = input; }}
-                                                            maxLength={1}
-                                                            keyboardType="numeric"
-                                                            style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, }}
-                                                            onChangeText={(num) => {
-                                                                this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) });
-                                                            }} />
-                                                    </View>
-                                                    <Button block primary style={{ marginTop: 10, textAlign: 'center' }}
-                                                        onPress={() => {
-                                                            //alert('SMS code: ' + JSON.stringify(this.state.verifySMS));
-                                                            console.log('=============> ' + JSON.stringify(this.state.verifySMS));
-                                                            console.log('=============> ' + JSON.stringify(this.state.randomInt));
-                                                            //this.props.navigation.navigate('LAND');
-                                                            if (parseInt(this.state.verifySMS) === parseInt(this.state.randomInt)) {
-                                                                this.props.navigation.navigate('LAND');
-                                                            }
-                                                        }}
-                                                    >
-                                                        <Text> تایید </Text>
-                                                    </Button>
-                                                    <View style={{ marginBottom: 20, marginTop: 15, backgroundColor: '#000', borderRadius: 5, padding: 10, paddingRight: 30, paddingLeft: 30, flexDirection: 'row' }}>
-                                                        <IconEnty name='stopwatch' size={25} color='#EEE' style={{ padding: 5 }} />
-                                                        <Text style={{ color: '#FFF', fontSize: 25, fontWeight: 'bold' }}> {this.state.timerMinute} : {this.state.timerSecond}</Text>
-                                                    </View>
-
-                                                </View>
-                                            }
-
-
-                                            <Button transparent onPress={() => this.setState({
-                                                LoginGuest: false,
-                                                showCards: true,
-                                                mobileSent: false
-                                            })}>
-                                                <Text>بازگشت</Text>
-                                            </Button>
-
-                                        </View>
-
-                                    }
-
-
-                                    {
-                                        this.state.showCards &&
-                                        <View>
-                                            <Card>
-                                                <CardItem>
-                                                    <Left>
-                                                        <Thumbnail source={require("../../assets/images/Login/thumbnail_guest.png")} />
+                                        {
+                                            this.state.showCards &&
+                                            <View>
+                                                <Card>
+                                                    <CardItem>
+                                                        <Left>
+                                                            <Thumbnail source={require("../../assets/images/Login/thumbnail_guest.png")} />
+                                                            <Body>
+                                                                <Text> Food Menu</Text>
+                                                                <Text note>Welcome </Text>
+                                                            </Body>
+                                                        </Left>
+                                                    </CardItem>
+                                                    <CardItem cardBody>
+                                                        <Image source={require("../../assets/images/Login/guest.png")} style={{
+                                                            height: 50,
+                                                            width: null,
+                                                            flex: 1,
+                                                            resizeMode: 'contain'
+                                                        }} />
+                                                    </CardItem>
+                                                    <CardItem>
+                                                        <Left>
+                                                            <Button transparent>
+                                                                <Text></Text>
+                                                            </Button>
+                                                        </Left>
                                                         <Body>
-                                                            <Text> Food Menu</Text>
-                                                            <Text note>Welcome </Text>
+                                                            <Button transparent onPress={() => this.setState({ LoginGuest: true, showCards: false })}>
+                                                                <Text>ورود مهمان</Text>
+                                                            </Button>
                                                         </Body>
-                                                    </Left>
-                                                </CardItem>
-                                                <CardItem cardBody>
-                                                    <Image source={require("../../assets/images/Login/guest.png")} style={{
-                                                        height: 50,
-                                                        width: null,
-                                                        flex: 1,
-                                                        resizeMode: 'contain'
-                                                    }} />
-                                                </CardItem>
-                                                <CardItem>
-                                                    <Left>
-                                                        <Button transparent>
+                                                        <Right>
                                                             <Text></Text>
-                                                        </Button>
-                                                    </Left>
-                                                    <Body>
-                                                        <Button transparent onPress={() => this.setState({ LoginGuest: true, showCards: false })}>
-                                                            <Text>ورود مهمان</Text>
-                                                        </Button>
-                                                    </Body>
-                                                    <Right>
-                                                        <Text></Text>
-                                                    </Right>
+                                                        </Right>
 
-                                                </CardItem>
-                                            </Card>
-                                            <Card style={{}}>
-                                                <CardItem>
-                                                    <Left>
-                                                        <Thumbnail source={require("../../assets/images/Login/thumbnail_garson.jpg")} />
+                                                    </CardItem>
+                                                </Card>
+                                                <Card style={{}}>
+                                                    <CardItem>
+                                                        <Left>
+                                                            <Thumbnail source={require("../../assets/images/Login/thumbnail_garson.jpg")} />
+                                                            <Body>
+                                                                <Text>Captain Login</Text>
+                                                                <Text note>Take Order</Text>
+                                                            </Body>
+                                                        </Left>
+                                                    </CardItem>
+                                                    <CardItem cardBody>
+                                                        <Image source={require("../../assets/images/Login/garson.png")} style={{
+                                                            height: 50,
+                                                            width: null,
+                                                            flex: 1,
+                                                            resizeMode: 'contain'
+                                                        }} />
+                                                    </CardItem>
+                                                    <CardItem>
+                                                        <Left>
+                                                            <Button transparent>
+                                                                <Text></Text>
+                                                            </Button>
+                                                        </Left>
                                                         <Body>
-                                                            <Text>Captain Login</Text>
-                                                            <Text note>Take Order</Text>
+                                                            <Button transparent onPress={() => this.setState({ LoginGarson: true, showCards: false })}>
+                                                                <Text>ورود گارسن</Text>
+                                                            </Button>
                                                         </Body>
-                                                    </Left>
-                                                </CardItem>
-                                                <CardItem cardBody>
-                                                    <Image source={require("../../assets/images/Login/garson.png")} style={{
-                                                        height: 50,
-                                                        width: null,
-                                                        flex: 1,
-                                                        resizeMode: 'contain'
-                                                    }} />
-                                                </CardItem>
-                                                <CardItem>
-                                                    <Left>
-                                                        <Button transparent>
+                                                        <Right>
                                                             <Text></Text>
-                                                        </Button>
-                                                    </Left>
-                                                    <Body>
-                                                        <Button transparent onPress={() => this.setState({ LoginGarson: true, showCards: false })}>
-                                                            <Text>ورود گارسن</Text>
-                                                        </Button>
-                                                    </Body>
-                                                    <Right>
-                                                        <Text></Text>
-                                                    </Right>
-                                                </CardItem>
-                                            </Card>
-                                        </View>
-                                    }
+                                                        </Right>
+                                                    </CardItem>
+                                                </Card>
+                                            </View>
+                                        }
 
 
-                                </View>
-                            </ScrollView>
-                        </View>
-                        {
-                            this.state.showCards &&
-                            <View style={{ height: 70, backgroundColor: '#f96bd4' }}>
-                                {/* <Text>fixed content: FOOD ICON SLIDER</Text> */}
+                                    </View>
+                                </ScrollView>
                             </View>
-                        }
+                            {
+                                this.state.showCards &&
+                                <View style={{ height: 50, backgroundColor: '#ffda00' }}>
+                                    {/* <Text>fixed content: FOOD ICON SLIDER</Text> */}
+                                </View>
+                            }
 
 
-                        <SettingsModal
-                            modalVisible={this.state.show_settings_modal}
-                            headerTXT=''
-                            yesTXT='OK'
-                            noTXT='Cancel'
-                            bodyTXT="Set the API's base address:"
-                            logoType='WARNING'
-                            btnYesCallback={this.close_settingsModal_callback_btnYes}
-                            btnNoCallback={this.close_settingsModal_callback_btnNo}
-                        />
+                            <SettingsModal
+                                modalVisible={this.state.show_settings_modal}
+                                placehold={this.state.API_ADDRESS}
+                                headerTXT=''
+                                yesTXT='OK'
+                                noTXT='Cancel'
+                                bodyTXT="Set the API's base address:"
+                                logoType='WARNING'
+                                btnYesCallback={this.close_settingsModal_callback_btnYes}
+                                btnNoCallback={this.close_settingsModal_callback_btnNo}
+                            />
+                        </View>
+                        {/* </Container> */}
+
                     </View>
-                </Container>
+                </MenuProvider>
+
             </>
         )
     }
