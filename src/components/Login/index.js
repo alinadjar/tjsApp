@@ -114,7 +114,7 @@ class LoginPage extends Component {
         verifySMS: 0, // the number to verify the SMS code received
         timerMinute: 0,
         timerSecond: 20,
-        show_settings_modal: false,
+        show_settings_modal: true,
         API_ADDRESS: ''
     }
 

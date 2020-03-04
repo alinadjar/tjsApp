@@ -16,35 +16,42 @@ import { APP_VERSION } from '../../utils/misc';
 class SplashScreen extends Component {
     render() {
         return (
-            <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                backgroundColor: '#FFF',
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-                borderWidth: 2,
-                borderColor: '#F00',                
-            }}>
+            <View style={{ flex: 1}}>
                 <Image source={require('../../assets/images/Splash/splashBG2.jpg')}
                     style={{
+                        width: '100%',
+                        height: '100%',
                         position: 'absolute',
                         top: 0,
                         left: 0,
                         right: 0,
                         resizeMode: 'cover'
                     }} />
-                {/* <Text> This is the Splash Screen ... for 3 Seconds!</Text> */}
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    // backgroundColor: '#FFF',
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
+                    marginTop: -80,
+                    // borderWidth: 2,
+                    // borderColor: '#F00',
+                    // width: '100%',
+                }}>
+                    <StatusBar barStyle="default" barStyle="light-content" backgroundColor="#272221" />
 
-                <StatusBar barStyle="default" barStyle="light-content" backgroundColor="#272221" />
 
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <ActivityIndicator size="large" color='#FFF' />
-                    <Image source={require('../../assets/images/Splash/logo.png')} style={{ width: '40%', resizeMode: 'contain' }} />
-                    <Text> TJS </Text>
-                    <Text style={{ color: '#EEE', position: 'absolute', bottom: 0 }}>v{APP_VERSION}</Text>
-                </View>
-                <View style={{ height: 30, backgroundColor: '#FFF', borderTopLeftRadius: -30 }}>
+                    {/* <Text> This is the Splash Screen ... for 3 Seconds!</Text> */}
 
+
+
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <ActivityIndicator size="large" color='#FFF' />
+                        <Image source={require('../../assets/images/Splash/logo.png')} style={{ width: '30%', resizeMode: 'contain' }} />
+                        <Text style={{marginTop: -20}}> TJS </Text>
+                        <Text style={{ color: '#EEE', position: 'absolute', bottom: 0 }}>v{APP_VERSION}</Text>
+                    </View>
+                    
                 </View>
             </View>
         )
