@@ -28,6 +28,8 @@ import {
     Title,
 } from 'native-base';
 
+import { LoadingComponent } from '../../utils/LoadingComponent';
+import { AlertModal } from '../../utils/Modals/AlertModal';
 import { SettingsModal } from './SettingsModal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -37,6 +39,8 @@ import IconMatCommu from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 import { saveGuestMobile } from '../../iRedux/Actions/guest_Actions';
+import { authenticate_Garson } from '../../iRedux/Actions/login_Actions';
+import { set_WhoAmI } from '../../iRedux/Actions/misc_Actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -101,22 +105,38 @@ const styles = StyleSheet.create({
     },
 });
 
+
 class LoginPage extends Component {
 
-    state = {
-        backClickCount: 0,
-        LoginGuest: false,
-        LoginGarson: false,
-        showCards: true,
-        mobileSent: false,
-        mobileNumber: '',
-        randomInt: 0, // random 3-digit int that sent to user via SMS
-        verifySMS: 0, // the number to verify the SMS code received
-        timerMinute: 0,
-        timerSecond: 20,
-        show_settings_modal: true,
-        API_ADDRESS: ''
+    constructor(props) {
+        super(props);
+
+        this.interval = 0;
+
+
+        this.state = {
+            backClickCount: 0,
+            LoginGuest: false,
+            LoginGarson: false,
+            showCards: true,
+            mobileSent: false,
+            mobileNumber: '',
+            randomInt: 0, // random 3-digit int that sent to user via SMS
+            verifySMS: 0, // the number to verify the SMS code received
+            timerMinute: 0,
+            timerSecond: 20,
+            show_settings_modal: true,
+            API_ADDRESS: '',
+            garsonName: '',
+            garsonPassword: '',
+            loading: false,
+            modal_Alert_Show: false
+        }
+
+
+
     }
+
 
 
 
@@ -297,6 +317,16 @@ class LoginPage extends Component {
     }
 
 
+    close_AlertModal_callback_btnReturn = () => {
+        this.setState({ modal_Alert_Show: false });
+    }
+
+
+    close_AlertModal_callback = () => {
+        this.setState({ modal_Alert_Show: false });
+    }
+
+
     render() {
 
 
@@ -360,11 +390,20 @@ class LoginPage extends Component {
                                                     <Form>
                                                         <FormItem floatingLabel>
                                                             <Label><Icon active name='user-alt' size={24} style={{ color: '#000', width: '10%' }} /> Username</Label>
-                                                            <Input style={{ width: '90%', textAlign: 'center' }} />
+                                                            <Input
+                                                                style={{ width: '90%', textAlign: 'center' }}
+                                                                value={this.state.garsonName}
+                                                                onChangeText={txt => this.setState({ garsonName: txt })}
+                                                            />
                                                         </FormItem>
                                                         <FormItem floatingLabel last>
                                                             <Label><Ionicons active name='ios-lock' size={24} style={{ color: '#000', width: '10%' }} />    Password</Label>
-                                                            <Input secureTextEntry={true} style={{ width: '90%', textAlign: 'center' }} />
+                                                            <Input
+                                                                secureTextEntry={true}
+                                                                style={{ width: '90%', textAlign: 'center' }}
+                                                                value={this.state.garsonPassword}
+                                                                onChangeText={txt => this.setState({ garsonPassword: txt })}
+                                                            />
                                                         </FormItem>
 
 
@@ -379,8 +418,25 @@ class LoginPage extends Component {
                                                         <View style={{ flex: 1, alignItems: 'center' }}>
                                                             <TouchableOpacity
                                                                 onPress={() => {
-                                                                    this.props.navigation.navigate('LANDING_st');
-                                                                }}
+                                                                    let obj = {
+                                                                        username: this.state.garsonName,
+                                                                        password: this.state.garsonPassword
+                                                                    };
+
+                                                                    this.setState({ loading: true });
+                                                                    this.props.authenticate_Garson(obj)
+                                                                        .then(res => {
+                                                                            this.setState({ loading: false });
+                                                                            if (res.status === 200) {
+                                                                                this.props.navigation.navigate('LANDING_st');
+                                                                            } else {
+                                                                                console.log('res faced error');
+                                                                                //alert('request faced error');
+                                                                                this.setState({ modal_Alert_Show: true });
+                                                                            }
+
+                                                                        });
+                                                                }} // end onPress
                                                             >
                                                                 <View style={{ backgroundColor: '#FFDA00', marginTop: 50, width: '100%', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                                                                     <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Login</Text>
@@ -488,6 +544,7 @@ class LoginPage extends Component {
                                                                 console.log('=============> ' + JSON.stringify(this.state.randomInt));
                                                                 //this.props.navigation.navigate('LAND');
                                                                 if (parseInt(this.state.verifySMS) === parseInt(this.state.randomInt)) {
+                                                                    this.props.set_WhoAmI('guest');
                                                                     this.props.navigation.navigate('LAND');
                                                                 }
                                                             }}
@@ -506,7 +563,8 @@ class LoginPage extends Component {
                                                 <Button transparent onPress={() => this.setState({
                                                     LoginGuest: false,
                                                     showCards: true,
-                                                    mobileSent: false
+                                                    mobileSent: false,
+                                                    mobileNumber: ''
                                                 })}>
                                                     <Text>بازگشت</Text>
                                                 </Button>
@@ -618,6 +676,18 @@ class LoginPage extends Component {
                         {/* </Container> */}
 
                     </View>
+                    {this.state.loading &&
+                        <LoadingComponent />
+                    }
+                    <AlertModal
+                        modalVisible={this.state.modal_Alert_Show}
+                        returnTXT='return'
+                        bodyTXT='Your request faced Error'
+                        logoType='ERROR'
+                        logoTXT='ERROR'
+                        btnReturnCallback={this.close_AlertModal_callback_btnReturn}
+                        closeCallback={this.close_AlertModal_callback}
+                    />
                 </MenuProvider>
 
             </>
@@ -629,7 +699,7 @@ class LoginPage extends Component {
 //export default LoginPage;
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ saveGuestMobile }, dispatch);
+    return bindActionCreators({ saveGuestMobile, authenticate_Garson, set_WhoAmI }, dispatch);
 }
 
 

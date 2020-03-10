@@ -14,3 +14,8 @@ export const BASKET_CLEAR = 'BASKET_CLEAR';  //
 
 export const STORE_GUEST_INFO = "STORE_GUEST_INFO";
 export const STORE_GUEST_MOBILE = "STORE_GUEST_MOBILE";
+
+
+export const SET_WHOAMI = "SET_WHOAMI";
+
+export const SET_ERROR_API = "SET_ERROR_API";

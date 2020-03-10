@@ -22,9 +22,10 @@ import {
 } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import {LoadingComponent} from '../../utils/LoadingComponent';
+import { LoadingComponent } from '../../utils/LoadingComponent';
+import { AlertModal } from '../../utils/Modals/AlertModal';
 import { connect } from 'react-redux';
-import {FetchFoods} from '../../iRedux/Actions/food_Actions';
+import { FetchFoods } from '../../iRedux/Actions/food_Actions';
 import { bindActionCreators } from 'redux';
 
 
@@ -38,7 +39,10 @@ class LandigPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false
+            loading: false,
+            modal_Alert_Show: false,
+            errorStatus: '',
+            errorBody: ''
         }
     }
 
@@ -72,7 +76,21 @@ class LandigPage extends Component {
 
 
 
+    close_AlertModal_callback_btnReturn = () => {
+        this.setState({
+            modal_Alert_Show: false,
+            errorStatus: '',
+            errorBody: ''
+        });
+    }
 
+    close_AlertModal_callback = () => {
+        this.setState({
+            modal_Alert_Show: false,
+            errorStatus: '',
+            errorBody: ''
+        });
+    }
 
 
 
@@ -110,13 +128,30 @@ class LandigPage extends Component {
                         <TouchableOpacity //hitSlop={{ top: 0, bottom: 0, left: 0, right: 0 }}
                             style={{ width: 200, height: 150, marginTop: 40, borderColor: '#000', borderWidth: 2, borderRadius: 10 }}
                             //onPress={() => this.props.navigation.navigate('TAB_bt')}
-                            onPress={ () => {
-                                this.setState({ loading: true});
+                            onPress={() => {
+                                this.setState({ loading: true });
                                 const result = this.props.FetchFoods();
-                                console.log(result);
-                                result.then(() => {
-                                    this.setState({ loading: false});
-                                    this.props.navigation.navigate('TAB_bt');
+
+                                result.then((x) => {
+
+
+                                    // console.log(result);
+                                    // console.log('#########################');
+                                    // console.log(typeof (result))
+
+                                    // console.log('=============> x: ' + JSON.stringify(x));
+
+                                    this.setState({ loading: false });
+
+                                    if ('error' in x) {
+                                        this.setState({
+                                            errorBody: x.error,
+                                            modal_Alert_Show: true
+                                        });
+
+                                    } else {
+                                        this.props.navigation.navigate('TAB_bt');
+                                    }
                                 })
                             }}
                         >
@@ -162,8 +197,18 @@ class LandigPage extends Component {
                     </View>
                 </View>
                 {this.state.loading &&
-                   <LoadingComponent />
+                    <LoadingComponent />
                 }
+
+                <AlertModal
+                    modalVisible={this.state.modal_Alert_Show}
+                    returnTXT='return'
+                    bodyTXT={this.state.errorBody}
+                    logoType='ERROR'
+                    logoTXT='ERROR'
+                    btnReturnCallback={this.close_AlertModal_callback_btnReturn}
+                    closeCallback={this.close_AlertModal_callback}
+                />
             </>
         return result;
 
@@ -178,7 +223,7 @@ class LandigPage extends Component {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ FetchFoods }, dispatch);
-  }
+}
 
 
 export default connect(null, mapDispatchToProps)(LandigPage);

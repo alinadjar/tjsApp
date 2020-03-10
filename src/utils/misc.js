@@ -5,6 +5,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const API_BASEURL_DEFAULT = 'http://192.168.87.62:5000/';
 export const APP_VERSION = '1.0.0';
 
+export const AXIOS_TIMEOUT = 5000;
+
 // export const FIREBASEURL = `https://nba-app-b961b.firebaseio.com`;
 // export const APIKEY = ``;
 // export const SIGNUP = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKEY}`;

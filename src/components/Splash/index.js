@@ -64,7 +64,7 @@ class SplashScreen extends Component {
             // screen will be unmounted and thrown away.
             this.props.navigation.navigate('APP');
 
-        }, 30000);
+        }, 3000);
     }
 
 
