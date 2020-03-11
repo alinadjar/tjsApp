@@ -116,11 +116,11 @@ class PursuitPage extends Component {
                             </Button>
                         </Right>
                     </Header>
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#000' }}>
 
                         <Image source={require('../../assets/images/Pursuit/woodenBG.jpg')} style={styles.backgroundImage} />
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={{ backgroundColor: '#FFFFFFAA', borderRadius: 10, width: '90%' }}>
+                        <View style={{ flex: 1, marginTop: '10%',  alignItems: 'center' }}>
+                            <View style={{ backgroundColor: '#FFFFFFAA', borderRadius: 10, width: '80%' }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 10 }}>
                                     <IconFA5 name='list-ol' size={23} style={{ color: '#000', paddingRight: 10 }} />
                                     <Text style={{ fontSize: 20 }}>Order Id: </Text>
@@ -137,10 +137,10 @@ class PursuitPage extends Component {
                                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>5</Text>
                                 </View>
                             </View>
-                            <View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative', marginTop: 10 }}>
+                            <View style={{ width: '80%'}}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative', marginTop: '3%',  }}>
 
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>Confirmed</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>Confirmed</Text>
                                     <View style={{ width: '30%', alignItems: 'center' }}>
                                         <View style={{
                                             borderStyle: 'dotted',
@@ -160,10 +160,10 @@ class PursuitPage extends Component {
                                             }
                                         </View>
                                     </View>
-                                    <Text style={{ color: '#FFF', width: '40%' }}>13:53:41</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>13:53:41</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>Cooking</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>Cooking</Text>
                                     <View style={{ width: '30%', alignItems: 'center' }}>
                                         <View style={{
                                             borderStyle: 'dotted',
@@ -183,10 +183,10 @@ class PursuitPage extends Component {
                                             }
                                         </View>
                                     </View>
-                                    <Text style={{ color: '#FFF', width: '40%' }}>13:58:09</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>13:58:09</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>On the way</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>On the way</Text>
                                     <View style={{ width: '30%', alignItems: 'center' }}>
                                         <View style={{
                                             borderStyle: 'dotted',
@@ -206,10 +206,10 @@ class PursuitPage extends Component {
                                             }
                                         </View>
                                     </View>
-                                    <Text style={{ color: '#FFF', width: '40%' }}>14:20:55</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>14:20:55</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ color: '#FFF', width: '30%', textAlign: 'center' }}>Delivered</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>Delivered</Text>
                                     <View style={{ width: '30%', alignItems: 'center' }}>
                                         <View style={[styles.innerCircle, { justifyContent: 'center', alignItems: 'center',backgroundColor: this.state.delivered ? '#0eb347' : '#000', }]}>
                                             {
@@ -220,7 +220,7 @@ class PursuitPage extends Component {
                                             }
                                         </View>
                                     </View>
-                                    <Text style={{ color: '#FFF', width: '40%', }}>14:21:35</Text>
+                                    <Text style={{ color: '#FFF', width: '35%', textAlign: 'center' }}>14:21:35</Text>
                                 </View>
                             </View>
 

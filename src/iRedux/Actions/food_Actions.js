@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { getData } from '../../utils/misc';
 import { AXIOS_TIMEOUT } from '../../utils/misc';
 import { OVERWRITE_LIST_FOODS, SET_ERROR_API } from '../types';
 
@@ -68,11 +69,16 @@ import { OVERWRITE_LIST_FOODS, SET_ERROR_API } from '../types';
 
 
 export const FetchFoods = () => {
-    return (dispatch) => {
+    return async (dispatch) => {
+
+        let URL = await getData('@API_BASEURL');
+        URL = 'http://' + URL + '/api/v1/foods';
+
+        console.log('==========> URL: ' + URL);
 
         const r = Axios.request({
             method: 'GET',
-            url: 'http://192.168.87.62:5000/api/v1/foods',
+            url: URL,
             timeout: AXIOS_TIMEOUT
         })
             .then(response => {

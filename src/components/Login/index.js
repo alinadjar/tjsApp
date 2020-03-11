@@ -117,15 +117,15 @@ class LoginPage extends Component {
         this.state = {
             backClickCount: 0,
             LoginGuest: false,
-            LoginGarson: false,
-            showCards: true,
+            LoginGarson: true,
+            showCards: false,
             mobileSent: false,
             mobileNumber: '',
             randomInt: 0, // random 3-digit int that sent to user via SMS
             verifySMS: 0, // the number to verify the SMS code received
             timerMinute: 0,
             timerSecond: 20,
-            show_settings_modal: true,
+            show_settings_modal: false,
             API_ADDRESS: '',
             garsonName: '',
             garsonPassword: '',
@@ -363,44 +363,54 @@ class LoginPage extends Component {
                         </View>
                         {/* <Container style={{ backgroundColor: '#f96bd4' }}> */}
 
-                        <View style={{ flex: 1, backgroundColor: '#ffda00' }}>
+                        <View style={{ flex: 1, backgroundColor: '#d778f6' }}>
                             <View style={[{
                                 flex: 1,
-                                backgroundColor: '#FFF'
-                            }, this.state.showCards ? styles.gracefulCurve : {}]}>
+                                backgroundColor: '#FFF',
+                            }, styles.gracefulCurve
+                                //this.state.showCards ? styles.gracefulCurve : {}
+                            ]}>
                                 <ScrollView>
                                     <View style={{
-                                        flex: 1, backgroundColor: '#FFF', justifyContent: 'center', marginTop: 5,
-                                        marginBottom: 5
+                                        backgroundColor: '#F55', justifyContent: 'center',
+                                        //marginBottom: 50
                                     }}>
 
                                         {
                                             this.state.LoginGarson &&
-                                            <View style={{}}>
-                                                <Image source={require('../../assets/images/Login/banner1.jpg')} style={{ width: '100%' }} />
+                                            <View style={{ flex: 1 }}>
+
+                                                <Image source={require('../../assets/images/Login/banner1.jpg')}
+                                                    style={{
+                                                        width: '100%',
+                                                        maxHeight: '70%'
+                                                    }} />
 
                                                 <View style={{
+                                                    // height: 400,
                                                     borderWidth: 1,
                                                     borderTopLeftRadius: 40,
-                                                    borderTopRightRadius: 40,
-                                                    marginTop: '-60%',
+                                                    //borderTopRightRadius: 40,
+                                                    marginTop: '-4%',
                                                     backgroundColor: '#FFF',
-                                                    borderBottomColor: '#FFF'
+                                                    borderBottomColor: '#FFF',
+                                                    justifyContent: "space-evenly",
+                                                    alignItems: 'center'
                                                 }}>
-                                                    <Form>
-                                                        <FormItem floatingLabel>
+                                                    <Form style={{ justifyContent: "space-between", }}>
+                                                        <FormItem floatingLabel style={{ marginBottom: '2%' }}>
                                                             <Label><Icon active name='user-alt' size={24} style={{ color: '#000', width: '10%' }} /> Username</Label>
                                                             <Input
-                                                                style={{ width: '90%', textAlign: 'center' }}
+                                                                style={{ width: '80%', textAlign: 'center' }}
                                                                 value={this.state.garsonName}
                                                                 onChangeText={txt => this.setState({ garsonName: txt })}
                                                             />
                                                         </FormItem>
-                                                        <FormItem floatingLabel last>
+                                                        <FormItem floatingLabel last style={{ marginBottom: '2%' }}>
                                                             <Label><Ionicons active name='ios-lock' size={24} style={{ color: '#000', width: '10%' }} />    Password</Label>
                                                             <Input
                                                                 secureTextEntry={true}
-                                                                style={{ width: '90%', textAlign: 'center' }}
+                                                                style={{ width: '80%', textAlign: 'center' }}
                                                                 value={this.state.garsonPassword}
                                                                 onChangeText={txt => this.setState({ garsonPassword: txt })}
                                                             />
@@ -461,21 +471,23 @@ class LoginPage extends Component {
                                             this.state.LoginGuest &&
                                             <View style={{
                                                 flex: 1,
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
                                                 alignItems: 'center',
-                                                marginTop: '10%',
+                                                paddingTop: '10%',
                                                 backgroundColor: '#FFF'
                                             }}>
 
                                                 {
                                                     !this.state.mobileSent &&
-                                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                                                        <Text> Mobile Number:</Text>
-                                                        <Input style={{ borderWidth: 0, borderBottomWidth: 1, height: 40, textAlign: 'center', fontSize: 27, borderBottomColor: '#F00', borderRadius: 5, backgroundColor: '#FFF' }}
+                                                    <View style={{ marginTop: 20, width: '40%', alignItems: 'center', }}>
+                                                        <Text style={{ fontSize: 27, marginBottom: '3%' }}> Mobile Number:</Text>
+                                                        <Input style={{
+                                                            borderWidth: 0, borderBottomWidth: 1, height: '10%', textAlign: 'center', fontSize: 27,
+                                                            borderBottomColor: '#F00', borderRadius: 5, backgroundColor: '#FFF', color: '#000', width: '100%', marginBottom: '3%'
+                                                        }}
                                                             maxLength={11} placeholder='0000-000-0000' keyboardType="numeric"
                                                             value={this.state.mobileNumber} onChangeText={txt => this.setState(state => state.mobileNumber = txt)} />
-                                                        <Button block primary style={{ marginTop: 10, textAlign: 'center' }}
+
+                                                        <TouchableOpacity
                                                             onPress={() => {
                                                                 alert('SMS to be sent...');
                                                                 this.setState({ mobileSent: true },
@@ -503,27 +515,29 @@ class LoginPage extends Component {
                                                                 );
                                                             }}
                                                         >
-                                                            <Text> ارسال </Text>
-                                                        </Button>
+                                                            <View style={{ backgroundColor: '#FFDA00', marginTop: 50, width: '100%', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Send</Text>
+                                                            </View>
+                                                        </TouchableOpacity>
                                                     </View>
                                                 }
 
                                                 {
                                                     this.state.mobileSent &&
-                                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                                                        <Text> Enter the Received Code: </Text>
-                                                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', padding: 20, width: '80%' }}>
+                                                    <View style={{ flex: 1, alignItems: 'center', marginTop: 20, justifyContent: 'space-between' }}>
+                                                        <Text style={{ fontSize: 27, marginBottom: '3%' }}> Enter the Received Code: </Text>
+                                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 20, width: '80%' }}>
                                                             <TextInput
                                                                 autoFocus={true}
                                                                 maxLength={1}
                                                                 keyboardType="numeric"
-                                                                style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10 }}
+                                                                style={{ backgroundColor: '#FFF', minWidth: '20%', textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, height: '150%', fontSize: 65, fontWeight: 'bold' }}
                                                                 onChangeText={(num) => { this.setState({ verifySMS: num }); this.secondTextInput.focus(); }} />
                                                             <TextInput
                                                                 ref={(input) => { this.secondTextInput = input; }}
                                                                 maxLength={1}
                                                                 keyboardType="numeric"
-                                                                style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, marginRight: '5%', marginLeft: '5%' }}
+                                                                style={{ backgroundColor: '#FFF', minWidth: '20%', textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, height: '150%', fontSize: 65, fontWeight: 'bold' }}
                                                                 onChangeText={(num) => {
                                                                     this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) });
                                                                     this.thirdTextInput.focus();
@@ -532,16 +546,17 @@ class LoginPage extends Component {
                                                                 ref={(input) => { this.thirdTextInput = input; }}
                                                                 maxLength={1}
                                                                 keyboardType="numeric"
-                                                                style={{ backgroundColor: '#FFF', width: 70, textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, }}
+                                                                style={{ backgroundColor: '#FFF', minWidth: '20%', textAlign: 'center', borderWidth: 1, borderColor: 'red', borderRadius: 10, height: '150%', fontSize: 65, fontWeight: 'bold' }}
                                                                 onChangeText={(num) => {
                                                                     this.setState({ verifySMS: parseInt(this.state.verifySMS) * 10 + parseInt(num) });
                                                                 }} />
                                                         </View>
-                                                        <Button block primary style={{ marginTop: 10, textAlign: 'center' }}
+
+                                                        <TouchableOpacity
                                                             onPress={() => {
                                                                 //alert('SMS code: ' + JSON.stringify(this.state.verifySMS));
-                                                                console.log('=============> ' + JSON.stringify(this.state.verifySMS));
-                                                                console.log('=============> ' + JSON.stringify(this.state.randomInt));
+                                                                // console.log('=============> ' + JSON.stringify(this.state.verifySMS));
+                                                                // console.log('=============> ' + JSON.stringify(this.state.randomInt));
                                                                 //this.props.navigation.navigate('LAND');
                                                                 if (parseInt(this.state.verifySMS) === parseInt(this.state.randomInt)) {
                                                                     this.props.set_WhoAmI('guest');
@@ -549,25 +564,31 @@ class LoginPage extends Component {
                                                                 }
                                                             }}
                                                         >
-                                                            <Text> تایید </Text>
-                                                        </Button>
-                                                        <View style={{ marginBottom: 20, marginTop: 15, backgroundColor: '#000', borderRadius: 5, padding: 10, paddingRight: 30, paddingLeft: 30, flexDirection: 'row' }}>
-                                                            <IconEnty name='stopwatch' size={25} color='#EEE' style={{ padding: 5 }} />
-                                                            <Text style={{ color: '#FFF', fontSize: 25, fontWeight: 'bold' }}> {this.state.timerMinute} : {this.state.timerSecond}</Text>
+                                                            <View style={{ backgroundColor: '#FFDA00', marginTop: 50, width: '100%', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Confirm</Text>
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                        <View style={{ marginBottom: 20, marginTop: 15, borderRadius: 5, padding: 10, paddingRight: 30, paddingLeft: 30, flexDirection: 'row' }}>
+                                                            <IconEnty name='stopwatch' size={25} color='#333' style={{ padding: 5 }} />
+                                                            <Text style={{ color: '#000', fontSize: 25, fontWeight: 'bold' }}> {this.state.timerMinute} : {this.state.timerSecond}</Text>
                                                         </View>
 
                                                     </View>
                                                 }
 
 
-                                                <Button transparent onPress={() => this.setState({
-                                                    LoginGuest: false,
-                                                    showCards: true,
-                                                    mobileSent: false,
-                                                    mobileNumber: ''
-                                                })}>
-                                                    <Text>بازگشت</Text>
-                                                </Button>
+                                                <View style={{ alignItems: 'center' }}>
+                                                    <Button transparent
+                                                        style={{ textAlign: 'center', width: '100%' }}
+                                                        onPress={() => this.setState({
+                                                            LoginGuest: false,
+                                                            showCards: true,
+                                                            mobileSent: false,
+                                                            mobileNumber: ''
+                                                        })}>
+                                                        <Text style={{}}>بازگشت</Text>
+                                                    </Button>
+                                                </View>
 
                                             </View>
 
@@ -576,8 +597,8 @@ class LoginPage extends Component {
 
                                         {
                                             this.state.showCards &&
-                                            <View>
-                                                <Card>
+                                            <View style={{ backgroundColor: '#FFF' }}>
+                                                <Card style={{}}>
                                                     <CardItem>
                                                         <Left>
                                                             <Thumbnail source={require("../../assets/images/Login/thumbnail_guest.png")} />
@@ -589,7 +610,7 @@ class LoginPage extends Component {
                                                     </CardItem>
                                                     <CardItem cardBody>
                                                         <Image source={require("../../assets/images/Login/guest.png")} style={{
-                                                            height: 50,
+                                                            maxHeight: '90%',
                                                             width: null,
                                                             flex: 1,
                                                             resizeMode: 'contain'
@@ -624,7 +645,7 @@ class LoginPage extends Component {
                                                     </CardItem>
                                                     <CardItem cardBody>
                                                         <Image source={require("../../assets/images/Login/garson.png")} style={{
-                                                            height: 50,
+                                                            maxHeight: '90%',
                                                             width: null,
                                                             flex: 1,
                                                             resizeMode: 'contain'
@@ -653,12 +674,11 @@ class LoginPage extends Component {
                                     </View>
                                 </ScrollView>
                             </View>
-                            {
-                                this.state.showCards &&
-                                <View style={{ height: 50, backgroundColor: '#ffda00' }}>
-                                    {/* <Text>fixed content: FOOD ICON SLIDER</Text> */}
-                                </View>
-                            }
+                            
+
+                            <View style={{ height: 50, backgroundColor: '#d778f6' }}>
+                                {/* <Text>fixed content: FOOD ICON SLIDER</Text> */}
+                            </View>
 
 
                             <SettingsModal
@@ -676,6 +696,16 @@ class LoginPage extends Component {
                         {/* </Container> */}
 
                     </View>
+
+
+
+
+
+
+
+
+
+
                     {this.state.loading &&
                         <LoadingComponent />
                     }

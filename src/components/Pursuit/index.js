@@ -53,7 +53,7 @@ class SearchPursuit extends Component {
         return (
             <>
 
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, backgroundColor: '#000' }}>
                 <Image source={require('../../assets/images/Pursuit/woodenBG.jpg')} style={styles.backgroundImage}  />
                     <View style={{ alignItems: 'center', 
                     // borderWidth: 2, 
@@ -92,9 +92,9 @@ class SearchPursuit extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View>
+                    <View style={{ maxHeight: '60%'}}>
                         <ScrollView>
-                            <ListItem icon style={{ backgroundColor: '#FFFFFFDD', width: '90%'}} onPress={ () => {
+                            <ListItem icon style={{ backgroundColor: '#FFFFFFDD', width: '90%',}} onPress={ () => {
                                 alert('OK, going to Pursuit Page');
                                 this.props.navigation.navigate('PPursuit')
                             }}>

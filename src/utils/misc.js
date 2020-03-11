@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-export const API_BASEURL_DEFAULT = 'http://192.168.87.62:5000/';
+export const API_BASEURL_DEFAULT = '192.168.87.62:5000';
 export const APP_VERSION = '1.0.0';
 
 export const AXIOS_TIMEOUT = 5000;
@@ -28,7 +28,7 @@ export const storeData = async (key, value) => {
 
 
 export const getData = async (key) => {
-    console.log(`now inside getData : ${key} `);
+    //console.log(`now inside getData : ${key} `);
     try {
         // const value = await AsyncStorage.getItem('@storage_Key')
         const value = await AsyncStorage.getItem(key)
@@ -37,10 +37,16 @@ export const getData = async (key) => {
         //     return value;
         // }
         console.log(value);
-        return (value === null) ? API_BASEURL_DEFAULT : value 
+        // return (value === null) ? API_BASEURL_DEFAULT : value 
+        if(value === null && key === '@API_BASEURL') {
+            return API_BASEURL_DEFAULT;
+        }
+        else {
+            return value;
+        }
     } catch (e) {
         // error reading value
-        return API_BASEURL_DEFAULT;
+        return null;
     }
 }
 

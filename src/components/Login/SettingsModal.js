@@ -71,6 +71,7 @@ export class SettingsModal extends Component {
                                     value={this.state.IP}
                                     onChangeText={text => this.onChangeText(text)}
                                 />
+                                {/* <Text> current: {this.props.placehold}</Text> */}
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', backgroundColor: '#CCC', justifyContent: 'center', alignItems: 'center' }}>
