@@ -116,3 +116,15 @@ export const setTokens = (values, cb) => {
         cb();
     });
 }
+
+
+
+export function fontSizer (screenWidth) {
+    if(screenWidth > 400){
+      return 35;
+    }else if(screenWidth > 250){
+      return 24;
+    }else { 
+      return 18;
+    }
+  }

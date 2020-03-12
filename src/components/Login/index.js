@@ -36,7 +36,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconEnty from 'react-native-vector-icons/Entypo';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconMatCommu from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 
 import { saveGuestMobile } from '../../iRedux/Actions/guest_Actions';
 import { authenticate_Garson } from '../../iRedux/Actions/login_Actions';
@@ -117,8 +117,8 @@ class LoginPage extends Component {
         this.state = {
             backClickCount: 0,
             LoginGuest: false,
-            LoginGarson: true,
-            showCards: false,
+            LoginGarson: false,
+            showCards: true,
             mobileSent: false,
             mobileNumber: '',
             randomInt: 0, // random 3-digit int that sent to user via SMS
@@ -306,6 +306,9 @@ class LoginPage extends Component {
                     API_ADDRESS: await getData('@API_BASEURL')
                 });
                 break;
+            case 'UPGRADE':
+                alert('upgrade clicked  ');
+                break;
             case 'SETTING':
                 alert('Setting');
                 break;
@@ -354,6 +357,7 @@ class LoginPage extends Component {
                                 </MenuTrigger>
                                 <MenuOptions customStyles={{ optionText: styles.text }}>
                                     <MenuOption value="IP"><Text> <IconMatCommu name='server-network' size={18} style={{ color: '#44F' }} /> Server IP</Text></MenuOption>
+                                    <MenuOption value="UPGRADE"><Text> <IconMaterial name='system-update' size={18} style={{ color: '#44F' }} /> upgrade version</Text></MenuOption>
                                     <MenuOption value="SETTING" disabled={true} ><Text style={{ color: '#AAA' }}><Ionicons name='ios-settings' size={20} style={{ color: '#AAA' }} /> Settings</Text></MenuOption>
                                     <View style={styles.divider} />
                                     {/* <MenuOption value={{ text: 'Hello world!' }} text='Object as value' /> */}
@@ -674,7 +678,7 @@ class LoginPage extends Component {
                                     </View>
                                 </ScrollView>
                             </View>
-                            
+
 
                             <View style={{ height: 50, backgroundColor: '#d778f6' }}>
                                 {/* <Text>fixed content: FOOD ICON SLIDER</Text> */}

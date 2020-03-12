@@ -3,7 +3,8 @@ import {
     //Text, 
     View,
     ActivityIndicator, StatusBar,
-    Image, ScrollView
+    Image, ScrollView,
+    Dimensions
 } from 'react-native';
 import {
     Container,
@@ -26,7 +27,7 @@ import { addToCart, updateCartQuantity, clearCart, removeFromCart } from '../../
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import { YesNoModal } from '../../utils/Modals/YesNoModal';
-
+import { fontSizer } from '../../utils/misc';
 
 class CheckoutPage extends Component {
 
@@ -65,7 +66,7 @@ class CheckoutPage extends Component {
 
 
     close_YesNoModal_callback_btnYes = () => {
-        this.setState({modal_YesNo_Show: false })
+        this.setState({ modal_YesNo_Show: false })
         this.props.clearCart();
 
         //this.props.navigation.navigate('LANDING_st');
@@ -74,10 +75,16 @@ class CheckoutPage extends Component {
 
 
     close_YesNoModal_callback_btnNo = () => {
-        this.setState({modal_YesNo_Show: false })        
+        this.setState({ modal_YesNo_Show: false })
     }
 
     render() {
+
+        const {
+            width: window_width,
+            height: window_height } = Dimensions.get('window');
+
+        const trueFontSize = fontSizer(window_width);
         return (
             <>
                 <Container>
@@ -87,7 +94,7 @@ class CheckoutPage extends Component {
                             <ScrollView>
                                 <List>
                                     <ListItem itemHeader first>
-                                        <Text>Your Basket:</Text>
+                                        <Text style={{ fontSize: trueFontSize }}>Your Basket:</Text>
                                     </ListItem>
                                     {
                                         this.props.cart ?
@@ -97,14 +104,16 @@ class CheckoutPage extends Component {
                                                         style={{
                                                             flex: 1,
                                                             flexDirection: 'row',
+                                                            borderRadius: 20,
+                                                            backgroundColor: '#EEF'
                                                         }}
                                                     >
                                                         <View style={{ width: '25%' }}>
-                                                            <Thumbnail square source={require('../../assets/images/Food/shishlique.jpg')} />
+                                                            <Thumbnail  source={require('../../assets/images/Food/shishlique.jpg')} style={{ height: 3*trueFontSize, width: 3*trueFontSize}}/>
                                                         </View>
                                                         <View style={{ width: '41%' }}>
-                                                            <Text>{item.product.NAME}</Text>
-                                                            <Text note numberOfLines={1}>{item.product.PRICE}</Text>
+                                                            <Text style={{ fontSize: trueFontSize }}>{item.product.NAME}</Text>
+                                                            <Text note numberOfLines={1} style={{ fontSize: trueFontSize }}>{item.product.PRICE}</Text>
                                                         </View>
                                                         <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '33%' },
                                                         parseInt(item.product.QUANTITY < item.quantity) ? styles.redQuantity : {}]}>
@@ -114,16 +123,16 @@ class CheckoutPage extends Component {
                                                             >
                                                                 <Image
                                                                     source={require('../../assets/images/misc/minusFood.jpg')}
-                                                                    style={{ width: 30, height: 30 }}
+                                                                    style={{ width: trueFontSize, height: trueFontSize }}
                                                                 />
                                                             </TouchableHighlight>
-                                                            <Text style={{ width: 20, textAlign: 'center' }}>{item.quantity}</Text>
+                                                            <Text style={{  textAlign: 'center', fontSize: trueFontSize }}>{item.quantity}</Text>
                                                             <TouchableHighlight
                                                                 onPress={() => this.Increment(item, 1)}
                                                             >
                                                                 <Image
                                                                     source={require('../../assets/images/misc/plusFood.jpg')}
-                                                                    style={{ width: 30, height: 30 }}
+                                                                    style={{ width: trueFontSize, height: trueFontSize }}
                                                                 />
                                                             </TouchableHighlight>
                                                         </View>
@@ -141,21 +150,21 @@ class CheckoutPage extends Component {
                     {/* <Text style={{ textAlign: 'center' }}>Total Sum: </Text> */}
                     <NumberFormat value={this.props.totalSum} displayType={'text'} thousandSeparator={true}
                         prefix={''}
-                        renderText={value => <Text style={{ textAlign: 'center', marginTop: 15 }}>Total Sum: {value} </Text>} />
+                        renderText={value => <Text style={{ textAlign: 'center', marginTop: 15, fontSize: trueFontSize }}>Total Sum: {value} </Text>} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, marginBottom: 20 }}>
                         <View style={{ width: '47%' }}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.setState({modal_YesNo_Show: true});
+                                    this.setState({ modal_YesNo_Show: true });
                                     // this.props.clearCart();
 
                                     // //this.props.navigation.navigate('LANDING_st');
                                     // this.props.navigation.navigate('MENU');
                                 }}
                             >
-                                <View style={{ backgroundColor: '#EEE', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                    <MaterialIcon name="cancel" style={{ color: '#F22' }} size={30} />
-                                    <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Cancel Order </Text>
+                                <View style={{ backgroundColor: '#EEE', borderRadius: 10, padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
+                                    <MaterialIcon name="cancel" style={{ color: '#F22' }} size={trueFontSize} />
+                                    <Text style={{ color: '#000', textAlign: 'center', fontSize: trueFontSize }}> Cancel Order </Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -163,9 +172,9 @@ class CheckoutPage extends Component {
                             <TouchableOpacity
                                 onPress={() => this.props.navigation.navigate('GUEST')}
                             >
-                                <View style={{ backgroundColor: '#ffda00', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                    <MaterialIcon name="check-circle" style={{ color: '#000' }} size={30} />
-                                    <Text style={{ color: '#000', textAlign: 'center', height: 30 }}>  Checkout </Text>
+                                <View style={{ backgroundColor: '#ffda00', borderRadius: 10, padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                    <MaterialIcon name="check-circle" style={{ color: '#000' }} size={trueFontSize} />
+                                    <Text style={{ color: '#000', textAlign: 'center', fontSize: trueFontSize }}>  Checkout </Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -178,8 +187,8 @@ class CheckoutPage extends Component {
                     noTXT='Cancel'
                     bodyTXT='Sure to cancel order?'
                     logoType='WARNING'
-                    btnYesCallback={ this.close_YesNoModal_callback_btnYes }
-                    btnNoCallback={ this.close_YesNoModal_callback_btnNo }
+                    btnYesCallback={this.close_YesNoModal_callback_btnYes}
+                    btnNoCallback={this.close_YesNoModal_callback_btnNo}
                 />
 
             </>

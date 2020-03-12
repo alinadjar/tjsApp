@@ -4,7 +4,8 @@ import {
     //Text, 
     View,
     ActivityIndicator, StatusBar,
-    Image, StyleSheet, TextInput
+    Image, StyleSheet, TextInput,
+    Dimensions
 } from 'react-native';
 import {
     Container,
@@ -24,6 +25,8 @@ import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconMatCammu from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFontisito from 'react-native-vector-icons/Fontisto';
+
+import { fontSizer } from '../../utils/misc';
 
 import { AlertModal } from '../../utils/Modals/AlertModal';
 
@@ -136,15 +139,25 @@ class GuestDetailsPage extends Component {
 
     render() {
 
+        const {
+            width: window_width,
+            height: window_height } = Dimensions.get('window');
+
+        const trueFontSize = fontSizer(window_width);
+
         const styles = StyleSheet.create({
             inp: {
                 textAlign: 'center',
                 backgroundColor: '#FFF',
-                borderRadius: 5,                
-                marginBottom: 10
+                borderRadius: 5,
+                marginBottom: 15,
+                fontSize: trueFontSize,
+                height: trueFontSize*2
             },
-
         });
+
+
+
 
 
 
@@ -153,7 +166,7 @@ class GuestDetailsPage extends Component {
             <Container>
                 <Header style={{ backgroundColor: '#272221' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate('CART') }>
+                        <Button transparent onPress={() => this.props.navigation.navigate('CART')}>
                             <Icon name='arrow-back' />
                         </Button>
                     </Left>
@@ -166,9 +179,9 @@ class GuestDetailsPage extends Component {
                         </Button> */}
                     </Right>
                 </Header>
-                <Content contentContainerStyle={{ flex:1, backgroundColor: '#F00', }}>
+                <Content contentContainerStyle={{ flex: 1, backgroundColor: '#F00', }}>
                     <View style={{
-                        flex: 1,  alignItems: 'center', backgroundColor: '#272221',
+                        flex: 1, alignItems: 'center', backgroundColor: '#272221',
                     }}>
                         <Image source={require('../../assets/images/misc/orderDetails.png')}
                             style={{
@@ -182,7 +195,7 @@ class GuestDetailsPage extends Component {
 
 
                         <View style={{
-                            width: '100%',  
+                            width: '100%',
                             height: '100%',
                             backgroundColor: '#EEE',
                             //borderWidth: 1,
@@ -202,24 +215,24 @@ class GuestDetailsPage extends Component {
                             }}>
                                 <H2 style={{ textAlign: 'center', marginBottom: 30 }}>Guest Info</H2>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Ionicons name="md-person" size={30} color="#900" style={{ width: 40 }} />
+                                    <Ionicons name="md-person" size={1.5*trueFontSize} color="#900" style={{ width: 65 }} />
                                     <Input style={styles.inp} placeholder='Family' />
                                 </View>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <IconFA5 name="mobile-alt" size={30} color="#900" style={{ width: 40 }} />
+                                    <IconFA5 name="mobile-alt" size={1.5*trueFontSize} color="#900" style={{ width: 65 }} />
                                     <Input style={styles.inp} placeholder='mobile' keyboardType="numeric" />
                                 </View>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <IconEntypo name="layers" size={30} color="#900" style={{ width: 40 }} />
+                                    <IconEntypo name="layers" size={1.5*trueFontSize} color="#900" style={{ width: 65 }} />
                                     <Input style={styles.inp} placeholder='Desk' keyboardType="numeric" />
                                 </View>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <IconFA5 name="users" size={30} color="#900" style={{ width: 40 }} />
+                                    <IconFA5 name="users" size={1.5*trueFontSize} color="#900" style={{ width: 65 }} />
                                     <Input style={styles.inp} placeholder='num' keyboardType="numeric" />
                                 </View>
 
 
-                                <TouchableOpacity style={{ marginBottom: 10}}
+                                <TouchableOpacity style={{ marginBottom: 15 }}
                                     onPress={() =>
                                         ActionSheet.show(
                                             {
@@ -238,7 +251,7 @@ class GuestDetailsPage extends Component {
                                         )}
                                 >
                                     <View style={{ backgroundColor: '#AAA', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                        <IconFA name='shopping-bag' size={30} color="#000" style={{ width: 40 }} />
+                                        <IconFA name='shopping-bag' size={trueFontSize*2} color="#000" style={{  }} />
                                         <Text style={{ color: '#000', textAlign: 'center', height: 30 }}>  </Text>
                                     </View>
                                 </TouchableOpacity>
@@ -246,16 +259,16 @@ class GuestDetailsPage extends Component {
                                     onPress={this.submitForm}
                                 >
                                     <View style={{ backgroundColor: '#ffda00', borderRadius: 10, padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Text style={{ color: '#000', textAlign: 'center', height: 30 }}>  Reserve </Text>
+                                        <Text style={{ color: '#000', textAlign: 'center',  fontSize: trueFontSize }}>  Reserve </Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
                         </View>
                     </View>
-                    
 
 
-                    <AlertModal                        
+
+                    <AlertModal
                         modalVisible={this.state.modal_Alert_Show}
                         returnTXT='OK'
                         bodyTXT='Your request faced Error'

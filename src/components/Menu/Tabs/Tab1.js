@@ -56,7 +56,7 @@ class Tab1 extends Component {
         else {
             if (parseInt(existing.quantity) + 1 <= parseInt(existing.product.QUANTITY)) {  // increase             
                 this.props.addToCart(food, 1);
-            } 
+            }
             else {
                 alert('Not possible');
             }
@@ -81,22 +81,23 @@ class Tab1 extends Component {
                                             {/* <Text>{JSON.stringify(food)}</Text> */}
 
                                             <View style={{ width: '25%' }}>
-                                                <Thumbnail square source={require('../../../assets/images/Food/shishlique.jpg')} />
+                                                <Thumbnail square source={require('../../../assets/images/Food/shishlique.jpg')} style={{ height: 3 * this.props.trueFontSize, width: 3 * this.props.trueFontSize }} />
                                             </View>
                                             <View style={{ width: '41%' }}>
-                                                <Text>{food.NAME}</Text>
-                                                <Text note numberOfLines={1}>{food.PRICE}</Text>
+                                                <Text style={{ fontSize: this.props.trueFontSize }}>{food.NAME}</Text>
+                                                <Text style={{ fontSize: this.props.trueFontSize }} note numberOfLines={1}>{food.PRICE}</Text>
                                             </View>
                                             <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '33%' },
                                             parseInt(food.QUANTITY) === 0 ? styles.reddddQuantity : {}]}>
 
                                                 {food.QUANTITY > 0 ?
-                                                    <Button rounded success iconLeft style={{ paddingLeft: 5 }}
+                                                    // <Button rounded success iconLeft style={{ padding: 50 }}
+                                                    <Button transparent rounded  style={{ }}
                                                         //onPress={ () => { this.props.addToCart(food) }}
                                                         onPress={() => this.quantityChanged(food)}
                                                     >
-                                                        <IconFA5 name='cart-plus' size={20} style={{ color: '#FFF' }} />
-                                                        <Text>ADD</Text>
+                                                        <IconFA5 name='cart-plus' size={this.props.trueFontSize * 1.5} style={{ color: '#0F0' }} />
+                                                        {/* <Text style={{ fontSize: this.props.trueFontSize-4}}>ADD</Text> */}
                                                     </Button>
                                                     : null
                                                 }

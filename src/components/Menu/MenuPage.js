@@ -5,6 +5,7 @@ import {
     View,
     ActivityIndicator, StatusBar,
     Image,
+    Dimensions
 } from 'react-native';
 import {
     Container,
@@ -22,6 +23,7 @@ import Tab1 from './Tabs/Tab1';
 import Tab2 from './Tabs/Tab2';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { fontSizer } from '../../utils/misc';
 
 
 class MenuPage extends Component {
@@ -56,6 +58,12 @@ class MenuPage extends Component {
 
     render() {
 
+        const {
+            width: window_width,
+            height: window_height } = Dimensions.get('window');
+
+        const trueFontSize = fontSizer(window_width);
+
         const list = [
             {
                 name: 'Amy Farha',
@@ -71,16 +79,16 @@ class MenuPage extends Component {
         return (
             <Container>
                 {/* <Header hasTabs /> */}
-                <Tabs>
+                <Tabs tabContainerStyle={{height: 2*trueFontSize}}>
                     {/* <Tab heading={<TabHeading style={{ backgroundColor: '#ffda00', color: '#000' }}><Icon name="camera" style={{ color:'#000'}} /><Text style={{color:'#000'}}>Camera</Text></TabHeading>}> */}
-                    <Tab heading={<TabHeading><MaterialIcon name="food" size={27} color={'#DDD'} /><Text>Food</Text></TabHeading>}>
-                        <Tab1 foods={this.props.foodList} />
+                    <Tab heading={<TabHeading><MaterialIcon name="food" size={trueFontSize } color={'#DDD'} /><Text style={{fontSize: trueFontSize - 5}}>Food</Text></TabHeading>}>
+                        <Tab1 foods={this.props.foodList} trueFontSize={trueFontSize} />
                     </Tab>
-                    <Tab heading={<TabHeading><MaterialIcon name="cake-variant" size={27} color={'#DDD'} /><Text>Dessert</Text></TabHeading>}>
+                    <Tab heading={<TabHeading><MaterialIcon name="cake-variant" size={trueFontSize} color={'#DDD'} /><Text style={{fontSize: trueFontSize - 5}}>Dessert</Text></TabHeading>}>
                         {/* need to pass navigation props  */}
                         <Tab2 {...this.props} />
                     </Tab>
-                    <Tab heading={<TabHeading><Icon name="apps" /></TabHeading>}>
+                    <Tab heading={<TabHeading><MaterialIcon name="apps" size={trueFontSize} color={'#DDD'}/></TabHeading>}>
                         <Tab1 />
                     </Tab>
                 </Tabs>

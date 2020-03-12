@@ -8,6 +8,7 @@ import {
     BackHandler, ToastAndroid,
     Platform,
     AlertIOS,
+    Dimensions
 } from 'react-native';
 import {
     Button,
@@ -45,6 +46,10 @@ import MenuPage from './components/Menu/MenuPage';
 import CheckoutPage from './components/CheckOut';
 
 
+const {
+    width: window_width,
+    height: window_height } = Dimensions.get('window');
+
 
 
 
@@ -60,17 +65,30 @@ const MenuStack = createStackNavigator({
 
 const TabNavig = createBottomTabNavigator({
     MENU: MenuStack,
-    CART: CartStack
+    CART: CartStack,    
 },
     {
         tabBarOptions: {
             activeTintColor: '#f4f813',
-            showLabel: true,
+            showLabel: false,
+            showIcon: true,
             activeBackgroundColor: '#272221',
             inactiveBackgroundColor: '#272221',
             style: {
                 backgroundColor: '#272221',
-            }
+                height: window_height / 12,
+                // padding: 100,
+                // borderWidth: 1,
+                // borderColor: '#F00',
+                //width: '100%'
+            },
+            // labelStyle: {
+            //     width: 100,
+            //     color: '#F00'
+            // },
+            // tabStyle: {
+            //     backgroundColor: '#F00',
+            // },
         },
         initialRouteName: 'MENU',
         navigationOptions: {
@@ -83,7 +101,7 @@ const TabNavig = createBottomTabNavigator({
                 let iconName;
                 if (routeName === 'CART') {
                     iconName = focused
-                        ? 'md-cart' : 'ios-cart';
+                         ? 'md-cart' : 'ios-cart'; //ios-camera                        
                     // Sometimes we want to add badges to some icons.
                     // You can check the implementation below.
                     IconComponent = CartIconWithBadge;
@@ -92,7 +110,7 @@ const TabNavig = createBottomTabNavigator({
                 }
 
                 // You can return any component that you like here!
-                return <IconComponent name={iconName} size={25} color={tintColor} />;
+                return <IconComponent name={iconName} size={window_width/18} color={tintColor}  />;
             },
         }),
     }
@@ -102,7 +120,7 @@ const TabNavig = createBottomTabNavigator({
 const PursuitStack = createStackNavigator({
     SPursuit: SearchPursuit,
     PPursuit: PursuitPage
-},{
+}, {
     navigationOptions: {
         headerShown: false,
     }
@@ -111,7 +129,7 @@ const PursuitStack = createStackNavigator({
 const LandingStack = createStackNavigator({
     LANDING: LandigPage,
     PURSUIT: PursuitStack
-},{
+}, {
     navigationOptions: {
         headerShown: false,
     }
