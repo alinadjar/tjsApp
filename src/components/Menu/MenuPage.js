@@ -79,16 +79,16 @@ class MenuPage extends Component {
         return (
             <Container>
                 {/* <Header hasTabs /> */}
-                <Tabs tabContainerStyle={{height: 2*trueFontSize}}>
+                <Tabs tabContainerStyle={{height: 3*trueFontSize}} tabBarUnderlineStyle={{ backgroundColor: '#000' }}>
                     {/* <Tab heading={<TabHeading style={{ backgroundColor: '#ffda00', color: '#000' }}><Icon name="camera" style={{ color:'#000'}} /><Text style={{color:'#000'}}>Camera</Text></TabHeading>}> */}
-                    <Tab heading={<TabHeading><MaterialIcon name="food" size={trueFontSize } color={'#DDD'} /><Text style={{fontSize: trueFontSize - 5}}>Food</Text></TabHeading>}>
+                    <Tab heading={<TabHeading style={{ backgroundColor: '#ffda00', color: '#000'  }}><MaterialIcon name="food" size={trueFontSize } color={'#000'} /><Text style={{fontSize: trueFontSize - 5, color: '#000'}}>Food</Text></TabHeading>}>
                         <Tab1 foods={this.props.foodList} trueFontSize={trueFontSize} />
                     </Tab>
-                    <Tab heading={<TabHeading><MaterialIcon name="cake-variant" size={trueFontSize} color={'#DDD'} /><Text style={{fontSize: trueFontSize - 5}}>Dessert</Text></TabHeading>}>
+                    <Tab heading={<TabHeading style={{ backgroundColor: '#ffda00', color: '#000'  }}><MaterialIcon name="cake-variant" size={trueFontSize} color={'#000'} /><Text style={{fontSize: trueFontSize - 5, color: '#000'}}>Dessert</Text></TabHeading>}>
                         {/* need to pass navigation props  */}
                         <Tab2 {...this.props} />
                     </Tab>
-                    <Tab heading={<TabHeading><MaterialIcon name="apps" size={trueFontSize} color={'#DDD'}/></TabHeading>}>
+                    <Tab heading={<TabHeading style={{ backgroundColor: '#ffda00', color: '#000'  }}><MaterialIcon name="apps" size={trueFontSize} color={'#000'}/></TabHeading>}>
                         <Tab1 />
                     </Tab>
                 </Tabs>

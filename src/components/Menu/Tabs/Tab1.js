@@ -81,24 +81,31 @@ class Tab1 extends Component {
                                             {/* <Text>{JSON.stringify(food)}</Text> */}
 
                                             <View style={{ width: '25%' }}>
-                                                <Thumbnail square source={require('../../../assets/images/Food/shishlique.jpg')} style={{ height: 3 * this.props.trueFontSize, width: 3 * this.props.trueFontSize }} />
+                                                <Thumbnail circle large source={require('../../../assets/images/Food/shishlique.jpg')} style={{ height: 3 * this.props.trueFontSize, width: 3 * this.props.trueFontSize, marginLeft: '30%' }} />
                                             </View>
-                                            <View style={{ width: '41%' }}>
-                                                <Text style={{ fontSize: this.props.trueFontSize }}>{food.NAME}</Text>
-                                                <Text style={{ fontSize: this.props.trueFontSize }} note numberOfLines={1}>{food.PRICE}</Text>
+                                            <View style={{ width: '41%', }}>
+                                                <Text style={{ fontSize: this.props.trueFontSize, textAlign: 'center', color: '#000' }}>{food.NAME}</Text>
+                                                <Text style={{ fontSize: this.props.trueFontSize - 7, textAlign: 'center' }} note numberOfLines={1}>{food.PRICE}</Text>
                                             </View>
                                             <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '33%' },
                                             parseInt(food.QUANTITY) === 0 ? styles.reddddQuantity : {}]}>
 
                                                 {food.QUANTITY > 0 ?
                                                     // <Button rounded success iconLeft style={{ padding: 50 }}
-                                                    <Button transparent rounded  style={{ }}
-                                                        //onPress={ () => { this.props.addToCart(food) }}
+                                                    // <Button transparent rounded style={{}}
+                                                    //     //onPress={ () => { this.props.addToCart(food) }}
+                                                    //     onPress={() => this.quantityChanged(food)}
+                                                    // >
+                                                    //     <IconFA5 name='cart-plus' size={this.props.trueFontSize * 1.5} style={{ color: '#0F0' }} />
+                                                    //     <Text style={{ fontSize: this.props.trueFontSize - 4 }}>ADD</Text>
+                                                    // </Button>
+                                                    <TouchableOpacity
+                                                        style={{ borderWidth: 4, borderColor: '#0F0', borderRadius: 7, backgroundColor: '#DDD', padding: 10, paddingLeft: '20%', paddingRight: '20%'}}                                                    
                                                         onPress={() => this.quantityChanged(food)}
                                                     >
-                                                        <IconFA5 name='cart-plus' size={this.props.trueFontSize * 1.5} style={{ color: '#0F0' }} />
-                                                        {/* <Text style={{ fontSize: this.props.trueFontSize-4}}>ADD</Text> */}
-                                                    </Button>
+                                                        <IconFA5 name='cart-plus' size={this.props.trueFontSize * 1.3} style={{ color: '#222', textAlign: 'center' }} />
+                                                        {/* <Text style={{ fontSize: this.props.trueFontSize - 4 ,textAlign: 'center', color: '#000' }}>ADD</Text> */}
+                                                    </TouchableOpacity>
                                                     : null
                                                 }
 

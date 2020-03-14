@@ -121,7 +121,7 @@ export const setTokens = (values, cb) => {
 
 export function fontSizer (screenWidth) {
     if(screenWidth > 400){
-      return 35;
+      return 30;
     }else if(screenWidth > 250){
       return 24;
     }else { 

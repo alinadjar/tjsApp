@@ -105,15 +105,16 @@ class CheckoutPage extends Component {
                                                             flex: 1,
                                                             flexDirection: 'row',
                                                             borderRadius: 20,
-                                                            backgroundColor: '#EEF'
+                                                            backgroundColor: '#EEF',
+                                                            padding: 10
                                                         }}
                                                     >
-                                                        <View style={{ width: '25%' }}>
+                                                        <View style={{ width: '25%', alignItems: 'center', justifyContent: 'center', }}>
                                                             <Thumbnail  source={require('../../assets/images/Food/shishlique.jpg')} style={{ height: 3*trueFontSize, width: 3*trueFontSize}}/>
                                                         </View>
-                                                        <View style={{ width: '41%' }}>
-                                                            <Text style={{ fontSize: trueFontSize }}>{item.product.NAME}</Text>
-                                                            <Text note numberOfLines={1} style={{ fontSize: trueFontSize }}>{item.product.PRICE}</Text>
+                                                        <View style={{ width: '41%' , alignItems: 'center', justifyContent: 'center', }}>
+                                                            <Text style={{ fontSize: trueFontSize, textAlign: 'center', paddingBottom:10 }}>{item.product.NAME}</Text>
+                                                            <Text note numberOfLines={1} style={{ fontSize: trueFontSize-4, textAlign: 'center' }}>{item.product.PRICE}</Text>
                                                         </View>
                                                         <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '33%' },
                                                         parseInt(item.product.QUANTITY < item.quantity) ? styles.redQuantity : {}]}>
@@ -123,7 +124,7 @@ class CheckoutPage extends Component {
                                                             >
                                                                 <Image
                                                                     source={require('../../assets/images/misc/minusFood.jpg')}
-                                                                    style={{ width: trueFontSize, height: trueFontSize }}
+                                                                    style={{ width: 1.5*trueFontSize, height: 1.5*trueFontSize }}
                                                                 />
                                                             </TouchableHighlight>
                                                             <Text style={{  textAlign: 'center', fontSize: trueFontSize }}>{item.quantity}</Text>
@@ -132,7 +133,7 @@ class CheckoutPage extends Component {
                                                             >
                                                                 <Image
                                                                     source={require('../../assets/images/misc/plusFood.jpg')}
-                                                                    style={{ width: trueFontSize, height: trueFontSize }}
+                                                                    style={{ width: 1.5*trueFontSize, height: 1.5*trueFontSize }}
                                                                 />
                                                             </TouchableHighlight>
                                                         </View>

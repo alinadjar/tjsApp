@@ -37,6 +37,7 @@ import CartIconWithBadge from './components/Menu/CartIconWithBadge';
 // SCREENS
 import SplashScreen from './components/Splash';
 import LoginPage from './components/Login';
+import StandBy from './components/Login/standBy';
 import LandigPage from './components/Landing';
 import PursuitPage from './components/Pursuit/PursuitPage';
 import SearchPursuit from './components/Pursuit';
@@ -76,7 +77,7 @@ const TabNavig = createBottomTabNavigator({
             inactiveBackgroundColor: '#272221',
             style: {
                 backgroundColor: '#272221',
-                height: window_height / 12,
+                height: window_height / 14,
                 // padding: 100,
                 // borderWidth: 1,
                 // borderColor: '#F00',
@@ -160,7 +161,8 @@ const mainStack = createStackNavigator({
 
 const drawerNavig = createDrawerNavigator(
     {
-        LOGI: { screen: LoginPage },
+        // LOGI: { screen: LoginPage },
+        LOGI: { screen: StandBy},
         LAND: { screen: mainStack },
         TAB: { screen: TabNavig },
         PUR: { screen: PursuitStack }

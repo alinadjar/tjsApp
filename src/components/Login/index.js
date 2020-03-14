@@ -202,6 +202,8 @@ class LoginPage extends Component {
 
     backPressed = () => {
 
+        clearInterval(this.interval); // <-------------------   Hey...... !!!!
+
         //this.props.navigation.goBack(null);        
         //BackHandler.exitApp();        
         return true;
