@@ -125,7 +125,6 @@ export class AlertModal extends Component {
                                 height: 0,
                                 backgroundColor: 'transparent',
                                 borderStyle: 'solid',
-                                borderTopWidth: 0,
                                 borderRightWidth: 10,
                                 //borderBottomWidth: 25,
                                 borderTopWidth: 10,

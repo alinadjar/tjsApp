@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import {
     Container,
     Header,
@@ -167,55 +167,25 @@ class standBy extends Component {
                         </View>
 
 
-                        {/* <View>
-                            <SliderBox
-                                images={this.state.images}
-                                sliderBoxHeight={400}
-                                dotColor="#FFEE58"
-                                inactiveDotColor="#90A4AE"
-                                onCurrentImagePressed={index =>
-                                    //console.warn(`image ${index} pressed`)
-                                    alert(`image ${index} pressed`)
-                                }
-                                // dotStyle={{
-                                //     width: 15,
-                                //     height: 15,
-                                //     borderRadius: 15,
-                                //     marginHorizontal: 10,
-                                //     padding: 0,
-                                //     margin: 0
-                                // }}
-                                //parentWidth={this.state.width}
-                                paginationBoxVerticalPadding={20}
-                                autoplay
-                                circleLoop
-                                resizeMethod={'resize'}
-                                resizeMode={'cover'}
-                                ImageComponentStyle={{
-                                    borderRadius: 15,
-                                    width: '97%',
-                                    // height: 100,
-                                    marginTop: 5
-                                }}
-                                imageLoadingColor="#2196F3"
-                                paginationBoxStyle={{
-                                    alignItems: "center",
-                                    alignSelf: "center",
-                                    justifyContent: "center",
-                                    paddingVertical: 10,
-                                    // zIndex: 1000,
-                                    // elevation: 10
-                                }}
-                            />
-                        </View> */}
 
-                        <View style={{ flex: 1, backgroundColor: '#DDD', position: 'absolute', top: 0 }}>
-                            <View style={{zIndex: 5}}> 
+
+                        <View style={{ flex: 1, backgroundColor: '#DDD', }}>
+                            <View style={{
+                                zIndex: 5,
+                                borderBottomRightRadius: 450,
+                                // borderBottomWidth: 200, 
+                                // borderRightWidth: 400,
+                                // borderLeftWidth: 400,                                
+                                borderBottomLeftRadius: 450,
+                                borderWidth: 1,
+                                borderColor: '#000',
+                                overflow: 'hidden'
+                            }}>
                                 <SliderBox
                                     images={this.state.images}
-                                    sliderBoxHeight={400}
-                                    dotColor="#FFEE58"
-                                    inactiveDotColor="#90A4AE"
+                                    sliderBoxHeight={300}
+                                    dotColor='transparent'//"#FFEE58"
+                                    inactiveDotColor='transparent'//"#90A4AE"
                                     onCurrentImagePressed={index =>
                                         //console.warn(`image ${index} pressed`)
                                         alert(`image ${index} pressed`)
@@ -235,10 +205,10 @@ class standBy extends Component {
                                     resizeMethod={'resize'}
                                     resizeMode={'cover'}
                                     ImageComponentStyle={{
-                                        borderRadius: 15,
-                                        width: '97%',
+                                        // borderRadius: 15,
+                                        // width: '97%',
                                         // height: 100,
-                                        marginTop: 5
+                                        // marginTop: 5
                                     }}
                                     imageLoadingColor="#2196F3"
                                     paginationBoxStyle={{
@@ -251,51 +221,36 @@ class standBy extends Component {
                                     }}
                                 />
                             </View>
-                            <View style={{
-                                height: '90%',
-                                backgroundColor: '#55F',
-                                marginTop: -300,
-                                zIndex: 10
-                            }}>
-                                <View style={{
-                                    // flex: 1,
-                                    // backgroundColor: '#FFF',
-                                    backgroundColor: 'rgba(255,0,0,0.5)', 
-                                    borderBottomRightRadius: 450,
-                                    // borderBottomWidth: 200, 
-                                    // borderRightWidth: 400,
-                                    // borderLeftWidth: 400,                                
-                                    borderBottomLeftRadius: 450,
-                                    height: '60%',
-                                    marginBottom: '15%',
-                                    // elevation: 100
-                                    zIndex: 10000
-                                }}>
+                            <Image source={require('../../assets/images/ribbonBow.png')}
+                                style={{
+                                    height: 90,
+                                    width: 80,
+                                    resizeMode: 'contain',
+                                    marginBottom: 10,
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto'
+                                }} />
 
 
+                            <View>
 
-                                </View>
+                                <TouchableOpacity
+                                //onPress={} // end onPress
+                                >
+                                    <View style={{ backgroundColor: '#FFDA00', marginTop: 10, width: '100%', borderRadius: 10, padding: 10 }}>
+                                        <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Menu</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <Button transparent style={{ marginTop: 10, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                                //onPress={}
+                                >
+                                    <Text>Login as Garson</Text>
+                                </Button>
                             </View>
 
-                            <TouchableOpacity
-                            //onPress={} // end onPress
-                            >
-                                <View style={{ backgroundColor: '#FFDA00', marginTop: 10, width: '100%', borderRadius: 10, padding: 10 }}>
-                                    <Text style={{ color: '#000', textAlign: 'center', height: 30 }}> Menu</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <Button transparent style={{ marginTop: 10, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}
-                            //onPress={}
-                            >
-                                <Text>Login as Garson</Text>
-                            </Button>
-
-
-
-                            <View style={{ height: 50, backgroundColor: '#d778f6', position: 'absolute', bottom: 0, left: 0, right: 0 }}>
-                                {/* <Text>fixed content: FOOD ICON SLIDER</Text> */}
-                            </View>
+                            {/* <View style={{ height: 40, backgroundColor: '#d778f6', position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+                            </View> */}
 
 
 
